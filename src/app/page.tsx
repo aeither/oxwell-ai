@@ -16,7 +16,7 @@ export default function Home() {
 		try {
 			setLoading(true);
 			const quoteResult = await getQuote({
-				fromAddress: address || "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
+				fromAddress: address,
 				fromChain: ChainId.ARB,
 				toChain: ChainId.OPT,
 				fromToken: "0x0000000000000000000000000000000000000000",
@@ -88,7 +88,7 @@ export default function Home() {
 							{loading ? (
 								<span className="flex items-center justify-center">
 									{/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
-<svg
+									<svg
 										className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
 										xmlns="http://www.w3.org/2000/svg"
 										fill="none"
@@ -134,7 +134,7 @@ export default function Home() {
 								{executing ? (
 									<span className="flex items-center justify-center">
 										{/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
-<svg
+										<svg
 											className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
 											xmlns="http://www.w3.org/2000/svg"
 											fill="none"

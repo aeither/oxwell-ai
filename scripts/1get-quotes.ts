@@ -3,12 +3,12 @@ import { config } from 'dotenv';
 import type { Chain } from 'viem';
 import { createWalletClient, http } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
-import { arbitrum, mainnet, optimism, polygon, scroll } from 'viem/chains';
+import { arbitrum, base, mainnet, optimism, polygon, scroll } from 'viem/chains';
 config();
 
 const account = privateKeyToAccount(`${process.env.PRIVATE_KEY}` as `0x${string}`)
 
-const chains = [arbitrum, mainnet, optimism, polygon, scroll]
+const chains = [arbitrum, mainnet, optimism, polygon, scroll, base]
 
 const client = createWalletClient({
     account,

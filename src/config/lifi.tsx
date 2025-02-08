@@ -12,7 +12,7 @@ import {
 import { getWalletClient, switchChain } from "@wagmi/core";
 import type { FC, PropsWithChildren } from "react";
 import { createClient, http } from "viem";
-import { arbitrum, mainnet, optimism, polygon, scroll } from "viem/chains";
+import { arbitrum, base, mainnet, optimism, polygon, scroll } from "viem/chains";
 import type { Config, CreateConnectorFn } from "wagmi";
 import { WagmiProvider, createConfig as createWagmiConfig } from "wagmi";
 import { injected } from "wagmi/connectors";
@@ -24,7 +24,7 @@ const connectors: CreateConnectorFn[] = [injected()];
 
 // Create Wagmi config with default chain and without connectors
 const wagmiConfig: Config = createWagmiConfig({
-	chains: [arbitrum, mainnet, optimism, polygon, scroll],
+	chains: [arbitrum, base, mainnet, optimism, polygon, scroll],
 	client({ chain }) {
 		return createClient({ chain, transport: http() });
 	},
