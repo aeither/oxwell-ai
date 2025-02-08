@@ -18,7 +18,7 @@ export default function Home() {
 			console.log("Please connect your wallet first");
 			return;
 		}
-    
+
 		try {
 			setLoading(true);
 			const quoteResult = await getQuote({
