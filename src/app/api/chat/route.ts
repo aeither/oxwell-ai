@@ -3,11 +3,10 @@ import { openai } from "@ai-sdk/openai";
 import { getOnChainTools } from "@goat-sdk/adapter-vercel-ai";
 import { viem } from "@goat-sdk/wallet-viem";
 import { EVM, createConfig, executeRoute, getRoutes } from "@lifi/sdk";
-import { streamText } from "ai";
-import { Chain, createWalletClient, http } from "viem";
+import { streamText, tool } from "ai";
+import { type Chain, createWalletClient, http } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { arbitrum, mainnet, optimism, polygon, scroll } from "viem/chains";
-import { generateText, tool } from "ai";
 import { z } from "zod";
 
 // Allow streaming responses up to 30 seconds
@@ -65,10 +64,7 @@ const lifiTool = tool({
 
 export async function POST(req: Request) {
   const { messages } = await req.json();
-  // const tools = await getOnChainTools({
-  //   wallet: viem(walletClient),
-  //   plugins: [lifi({ apiKey: process.env.LIFI_API_KEY as string })],
-  // });
+
   const walletClient = privateKeyToAccount(
     `${process.env.PRIVATE_KEY}` as `0x${string}`
   );
@@ -96,12 +92,14 @@ export async function POST(req: Request) {
       }),
     ],
   });
+  const tools = await getOnChainTools({
+    wallet: viem(walletClient),
+    plugins: [lifi()],
+  });
 
   const result = streamText({
     model: openai("gpt-4o-mini"),
-    tools: {
-      lifiTool,
-    },
+    tools: tools,
     maxSteps: 10,
     messages: messages,
     onStepFinish: (event) => {

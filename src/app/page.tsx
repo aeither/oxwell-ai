@@ -1,175 +1,126 @@
 "use client";
 
+import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
-import { ChainId, executeRoute, getQuote, getRoutes } from "@lifi/sdk";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useState } from "react";
-import { parseEther } from "viem";
-import { useAccount } from "wagmi";
+import { Input } from "@/components/ui/input";
+import { useChat } from "ai/react";
+import ReactMarkdown from "react-markdown";
+import {
+  ThumbsUp,
+  ThumbsDown,
+  Copy,
+  RotateCcw,
+  Paperclip,
+  Globe,
+  Image,
+  SendHorizontal,
+} from "lucide-react";
 
-export default function Home() {
-	const [quote, setQuote] = useState<any>(null);
-	const [loading, setLoading] = useState(false);
-	const [executing, setExecuting] = useState(false);
-	const { address } = useAccount();
+export default function Chat() {
+  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const handleGetQuote = async () => {
-		if (!address) {
-			console.log("Please connect your wallet first");
-			return;
-		}
+  const onSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!input.trim() || isSubmitting) return;
 
-		try {
-			setLoading(true);
-			const quoteResult = await getQuote({
-				fromAddress: address,
-				fromChain: ChainId.BAS,
-				toChain: ChainId.ARB,
-				fromToken: "0x0000000000000000000000000000000000000000",
-				toToken: "0x0000000000000000000000000000000000000000",
-				fromAmount: parseEther("0.00001").toString(), // around 2 cents
-			});
-			console.log("🚀 ~ handleGetQuote ~ quoteResult:", quoteResult);
-			setQuote(quoteResult);
-		} catch (error) {
-			console.error("Error getting quote:", error);
-		} finally {
-			setLoading(false);
-		}
-	};
+    setIsSubmitting(true);
+    await handleSubmit(e);
+    setIsSubmitting(false);
+  };
 
-	const handleExecute = async () => {
-		if (!quote || !address) return;
+  return (
+    <div className="flex flex-col h-screen bg-zinc-900 text-zinc-100">
+      {/* Header */}
+      <header className="w-full p-4 bg-zinc-800 text-center">
+        <h1 className="text-2xl font-bold">AI Chat Assistant</h1>
+      </header>
 
-		try {
-			setExecuting(true);
-			// First get routes using the quote parameters
-			const routesResult = await getRoutes({
-				fromChainId: quote.action.fromChainId,
-				toChainId: quote.action.toChainId,
-				fromTokenAddress: quote.action.fromToken.address,
-				toTokenAddress: quote.action.toToken.address,
-				fromAmount: quote.action.fromAmount,
-				fromAddress: address,
-			});
+      {/* Chat messages */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-6">
+        {messages.map((message) => (
+          <div
+            key={message.id}
+            className={`flex items-start gap-3 ${
+              message.role === "user" ? "justify-end ml-12" : "mr-12"
+            }`}
+          >
+            {message.role === "assistant" && (
+              <div className="w-8 h-8 rounded bg-orange-500 flex items-center justify-center text-white flex-shrink-0">
+                AI
+              </div>
+            )}
+            <div
+              className={`flex flex-col ${
+                message.role === "user" ? "items-end" : ""
+              }`}
+            >
+              <div
+                className={`group flex flex-col gap-2 ${
+                  message.role === "user" ? "items-end" : ""
+                }`}
+              >
+                <div
+                  className={`px-4 py-2 rounded-lg ${
+                    message.role === "user" ? "bg-zinc-700" : "bg-zinc-800"
+                  }`}
+                >
+                  <ReactMarkdown>{message.content}</ReactMarkdown>
+                </div>
+                <div className="text-xs text-zinc-500">
+                  {new Date().toLocaleTimeString("en-US", {
+                    hour12: false,
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </div>
+              </div>
+              {message.role === "assistant" && (
+                <div className="flex items-center gap-2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button className="p-1.5 hover:bg-zinc-700/50 rounded-md transition-colors">
+                    <ThumbsUp className="w-4 h-4" />
+                  </button>
+                  <button className="p-1.5 hover:bg-zinc-700/50 rounded-md transition-colors">
+                    <ThumbsDown className="w-4 h-4" />
+                  </button>
+                  <button className="p-1.5 hover:bg-zinc-700/50 rounded-md transition-colors">
+                    <Copy className="w-4 h-4" />
+                  </button>
+                  <button className="p-1.5 hover:bg-zinc-700/50 rounded-md transition-colors">
+                    <RotateCcw className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
 
-			const route = routesResult.routes[0];
-
-			// Execute the first route
-			const executedRoute = await executeRoute(route, {
-				updateRouteHook(updatedRoute) {
-					console.log("Route updated:", updatedRoute);
-				},
-			});
-
-			console.log("🚀 ~ executedRoute:", executedRoute);
-			alert("Transaction executed successfully!");
-		} catch (error) {
-			console.error("Error executing route:", error);
-			alert("Failed to execute transaction. See console for details.");
-		} finally {
-			setExecuting(false);
-		}
-	};
-
-	return (
-		<div className="min-h-screen bg-gradient-to-b from-blue-100 to-purple-100 p-8">
-			<div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8">
-				<h1 className="text-3xl font-bold text-center mb-8">
-					Cross-Chain Token Swap
-				</h1>
-
-				<div className="flex justify-center mb-8">
-					<ConnectButton />
-				</div>
-
-				<div className="space-y-6">
-					<div className="bg-gray-100 p-6 rounded-lg">
-						<h2 className="text-xl font-semibold mb-4">Step 1: Get Quote</h2>
-						<Button
-							onClick={handleGetQuote}
-							className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out"
-							disabled={loading}
-						>
-							{loading ? (
-								<span className="flex items-center justify-center">
-									{/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
-									<svg
-										className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-										xmlns="http://www.w3.org/2000/svg"
-										fill="none"
-										viewBox="0 0 24 24"
-									>
-										<circle
-											className="opacity-25"
-											cx="12"
-											cy="12"
-											r="10"
-											stroke="currentColor"
-											strokeWidth="4"
-										/>
-										<path
-											className="opacity-75"
-											fill="currentColor"
-											d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-										/>
-									</svg>
-									Get Quote
-								</span>
-							) : (
-								"Get Quote"
-							)}
-						</Button>
-					</div>
-
-					{quote && (
-						<div className="bg-gray-100 p-6 rounded-lg">
-							<h2 className="text-xl font-semibold mb-4">
-								Step 2: Review Quote
-							</h2>
-							<div className="bg-white p-4 rounded-md shadow-inner mb-4">
-								<pre className="whitespace-pre-wrap text-sm">
-									{JSON.stringify(quote, null, 2)}
-								</pre>
-							</div>
-							<Button
-								onClick={handleExecute}
-								className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out"
-								disabled={executing || !address}
-							>
-								{executing ? (
-									<span className="flex items-center justify-center">
-										{/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
-										<svg
-											className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-											xmlns="http://www.w3.org/2000/svg"
-											fill="none"
-											viewBox="0 0 24 24"
-										>
-											<circle
-												className="opacity-25"
-												cx="12"
-												cy="12"
-												r="10"
-												stroke="currentColor"
-												strokeWidth="4"
-											/>
-											<path
-												className="opacity-75"
-												fill="currentColor"
-												d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-											/>
-										</svg>
-										Executing Swap...
-									</span>
-								) : (
-									"Execute Swap"
-								)}
-							</Button>
-						</div>
-					)}
-				</div>
-			</div>
-		</div>
-	);
+      {/* Input area */}
+      <div className="border-t border-zinc-800 p-4">
+        <div className="max-w-4xl mx-auto">
+          <form onSubmit={onSubmit} className="relative">
+            <Input
+              value={input}
+              onChange={handleInputChange}
+              placeholder="Ask AI Chat or @mention an agent"
+              className="w-full bg-zinc-800 border-zinc-700 text-zinc-100 pl-4 pr-32 py-6 rounded-xl focus:ring-1 focus:ring-zinc-700 focus:border-zinc-700 focus:outline-none"
+              disabled={isSubmitting}
+            />
+            <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
+              <Button
+                type="submit"
+                variant="ghost"
+                size="icon"
+                disabled={!input.trim() || isSubmitting}
+                className="text-zinc-400 hover:text-zinc-100 hover:bg-zinc-700/50 transition-colors disabled:opacity-50"
+              >
+                <SendHorizontal className="w-5 h-5" />
+              </Button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
 }
