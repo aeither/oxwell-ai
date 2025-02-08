@@ -25,7 +25,7 @@ const walletClient = createWalletClient({
     const tools = await getOnChainTools({
         wallet: viem(walletClient),
         plugins: [
-            lifi({ apiKey: process.env.LIFI_API_KEY as string }),
+            lifi(),
         ],
     });
 

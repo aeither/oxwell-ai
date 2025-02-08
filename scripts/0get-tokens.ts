@@ -1,16 +1,19 @@
-import { ChainId, getTokenBalances, getTokens } from '@lifi/sdk';
 import { config } from 'dotenv';
-import { privateKeyToAccount } from 'viem/accounts';
 config();
 
+import { getToken, getTokenBalance } from '@lifi/sdk';
 const main = async () => {
-    const account = privateKeyToAccount(`${process.env.PRIVATE_KEY}` as `0x${string}`)
+
+    const chainId = 1;
+    const tokenAddress = '0x0000000000000000000000000000000000000000';
+    const walletAddress = '0x30792C5af22147d47F009B868D6630b10C24c5A0';
+    console.log("🚀 ~ main ~ token!!!:")
 
     try {
-        const tokensResponse = await getTokens();
-        const optimismTokens = tokensResponse.tokens[ChainId.BAS];
-        const tokenBalances = await getTokenBalances(account.address, optimismTokens);
-        console.log(tokenBalances);
+        const token = await getToken(chainId, tokenAddress);
+        console.log("🚀 ~ main ~ token:", token)
+        const tokenBalance = await getTokenBalance(walletAddress, token);
+        console.log(tokenBalance);
     } catch (error) {
         console.error(error);
     }
