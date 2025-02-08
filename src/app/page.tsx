@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ChainId, executeRoute, getQuote, getRoutes } from "@lifi/sdk";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useState } from "react";
+import { parseEther } from "viem";
 import { useAccount } from "wagmi";
 
 export default function Home() {
@@ -13,15 +14,20 @@ export default function Home() {
 	const { address } = useAccount();
 
 	const handleGetQuote = async () => {
+		if (!address) {
+			console.log("Please connect your wallet first");
+			return;
+		}
+    
 		try {
 			setLoading(true);
 			const quoteResult = await getQuote({
 				fromAddress: address,
-				fromChain: ChainId.ARB,
-				toChain: ChainId.OPT,
+				fromChain: ChainId.BAS,
+				toChain: ChainId.ARB,
 				fromToken: "0x0000000000000000000000000000000000000000",
 				toToken: "0x0000000000000000000000000000000000000000",
-				fromAmount: "1000000000000000000",
+				fromAmount: parseEther("0.00001").toString(), // around 2 cents
 			});
 			console.log("🚀 ~ handleGetQuote ~ quoteResult:", quoteResult);
 			setQuote(quoteResult);
