@@ -30,7 +30,6 @@ export default function Home() {
 			});
 
 			const prompt = `get quotes from ${address} on chain id 42161 from 1000000000000000000 for token 0x0000000000000000000000000000000000000000 amount to 0x0000000000000000000000000000000000000000 on chain id 10`;
-
 			const generatedResult = await generateText({
 				model: openai("gpt-4o-mini"),
 				tools: tools,
