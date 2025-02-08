@@ -1,15 +1,22 @@
+"use client";
+
 import { ChainType, EVM, config, createConfig, getChains } from "@lifi/sdk";
 import { useSyncWagmiConfig } from "@lifi/wallet-management";
 import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
-import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
+import {
+	QueryClient,
+	QueryClientProvider,
+	useQuery,
+} from "@tanstack/react-query";
 import { getWalletClient, switchChain } from "@wagmi/core";
 import type { FC, PropsWithChildren } from "react";
 import { createClient, http } from "viem";
-import { mainnet } from "viem/chains";
+import { arbitrum, mainnet, optimism, polygon, scroll } from "viem/chains";
 import type { Config, CreateConnectorFn } from "wagmi";
 import { WagmiProvider, createConfig as createWagmiConfig } from "wagmi";
 import { injected } from "wagmi/connectors";
+
 const queryClient = new QueryClient();
 
 // List of Wagmi connectors
@@ -17,19 +24,11 @@ const connectors: CreateConnectorFn[] = [injected()];
 
 // Create Wagmi config with default chain and without connectors
 const wagmiConfig: Config = createWagmiConfig({
-	chains: [mainnet],
+	chains: [arbitrum, mainnet, optimism, polygon, scroll],
 	client({ chain }) {
 		return createClient({ chain, transport: http() });
 	},
 });
-
-// const wagmiConfig = getDefaultConfig({
-// 	appName: "My RainbowKit App",
-// 	projectId: "YOUR_PROJECT_ID",
-// 	chains: [mainnet],
-// 	ssr: true, // If your dApp uses server side rendering (SSR)
-// });
-
 
 // Create SDK config using Wagmi actions and configuration
 createConfig({
@@ -47,7 +46,7 @@ createConfig({
 	preloadChains: false,
 });
 
-export const CustomWagmiProvider: FC<PropsWithChildren> = ({ children }) => {
+const ChainConfigProvider: FC<PropsWithChildren> = ({ children }) => {
 	// Load EVM chains from LI.FI API using getChains action from LI.FI SDK
 	const { data: chains } = useQuery({
 		queryKey: ["chains"] as const,
@@ -64,11 +63,17 @@ export const CustomWagmiProvider: FC<PropsWithChildren> = ({ children }) => {
 	// Synchronize fetched chains with Wagmi config and update connectors
 	useSyncWagmiConfig(wagmiConfig, connectors, chains);
 
+	return <>{children}</>;
+};
+
+export const CustomWagmiProvider: FC<PropsWithChildren> = ({ children }) => {
 	return (
-		<WagmiProvider config={wagmiConfig}>
-			<QueryClientProvider client={queryClient}>
-				<RainbowKitProvider>{children}</RainbowKitProvider>
-			</QueryClientProvider>
-		</WagmiProvider>
+		<QueryClientProvider client={queryClient}>
+			<WagmiProvider config={wagmiConfig}>
+				<ChainConfigProvider>
+					<RainbowKitProvider>{children}</RainbowKitProvider>
+				</ChainConfigProvider>
+			</WagmiProvider>
+		</QueryClientProvider>
 	);
 };
