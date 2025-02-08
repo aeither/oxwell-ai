@@ -16,7 +16,7 @@ require("dotenv").config();
 const account = privateKeyToAccount(process.env.PRIVATE_KEY as `0x${string}`);
 
 const walletClient = createWalletClient({
-    account: account,
+    account,
     transport: http(process.env.RPC_PROVIDER_URL),
     chain: base,
 });
