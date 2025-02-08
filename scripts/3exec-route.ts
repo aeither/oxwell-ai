@@ -1,4 +1,4 @@
-import { ChainId, EVM, createConfig, getQuote } from '@lifi/sdk';
+import { EVM, createConfig, executeRoute, getRoutes } from '@lifi/sdk';
 import { config } from 'dotenv';
 import type { Chain } from 'viem';
 import { createWalletClient, http } from 'viem';
@@ -31,24 +31,22 @@ createConfig({
         }),
     ],
 })
+const result = await getRoutes({
+    fromChainId: 42161, // Arbitrum
+    toChainId: 10, // Optimism
+    fromTokenAddress: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831', // USDC on Arbitrum
+    toTokenAddress: '0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1', // DAI on Optimism
+    fromAmount: '10000000', // 10 USDC
+    // The address from which the tokens are being transferred.
+    fromAddress: account.address,
+})
 
-const main = async () => {
-    console.log("hello world");
+const route = result.routes[0]
 
-    const quote = await getQuote({
-        fromAddress: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',
-        fromChain: ChainId.ARB,
-        toChain: ChainId.OPT,
-        fromToken: '0x0000000000000000000000000000000000000000',
-        toToken: '0x0000000000000000000000000000000000000000',
-        fromAmount: '1000000000000000000',
-    })
-    console.log("🚀 ~ main ~ quote:", quote)
-};
-
-main()
-    .then(() => process.exit(0))
-    .catch((error) => {
-        console.error(error);
-        process.exit(1);
-    });
+const executedRoute = await executeRoute(route, {
+    // Gets called once the route object gets new updates
+    updateRouteHook(route) {
+        console.log(route)
+    },
+})
+console.log("🚀 ~ executedRoute:", executedRoute)
