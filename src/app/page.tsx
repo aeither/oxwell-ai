@@ -1,20 +1,17 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useChat } from "ai/react";
-import ReactMarkdown from "react-markdown";
 import {
-  ThumbsUp,
-  ThumbsDown,
   Copy,
   RotateCcw,
-  Paperclip,
-  Globe,
-  Image,
   SendHorizontal,
+  ThumbsDown,
+  ThumbsUp
 } from "lucide-react";
+import { useState, type FormEvent } from "react";
+import ReactMarkdown from "react-markdown";
 
 export default function Chat() {
   const { messages, input, handleInputChange, handleSubmit } = useChat();

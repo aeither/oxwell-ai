@@ -9,6 +9,8 @@ import {
     getToken
 } from "@lifi/sdk";
 import { config } from "dotenv";
+import { createPublicClient, formatUnits, http } from "viem";
+import { arbitrum, avalanche, base, bsc, mainnet, optimism } from 'viem/chains';
 import { z } from "zod";
 
 config();
@@ -24,24 +26,35 @@ export class LiFiPlugin extends PluginBase<EVMWalletClient> {
         return [
             createTool(
                 {
-                    name: "getBalanceOfToken",
-                    description: "Get the balance of a token for a specific wallet address",
+                    name: "getBalanceOfTokenByChain",
+                    description: "Get the balance of a token for a specific wallet address. If an 0x address is provided with a token symbol. the address should be the walletAddress",
                     parameters: z.object({
-                        tokenAddress: z.string().describe("The token address to get the balance for"),
+                        isStablecoin: z.boolean().describe("True if the token is a stablecoin such as USDC, USDT, or DAI"),
+                        tokenAddress: z.string().describe("The token address to get the balance for. Get address with getTokenByChain"),
                         walletAddress: z.string().describe("The wallet address to get the balance for"),
+                        chainId: z.string().describe("The chain id to get the balance for. Get chain id with getChainInfo"),
                     }),
                 },
                 async (parameters) => {
                     try {
-                        const balance = await walletClient.read({
+                        const chains = [arbitrum, base, mainnet, optimism, avalanche, bsc];
+                        const selectedChain = chains.find((chain) => chain.id === Number(parameters.chainId));
+                        if (!selectedChain) {
+                            throw new Error(`Unsupported chain ID: ${parameters.chainId}`);
+                        }
+                        const client = createPublicClient({
+                            chain: selectedChain,
+                            transport: http()
+                        });
+                        const balance = await client.readContract({
                             address: parameters.tokenAddress as `0x${string}`,
                             abi: [{ "inputs": [{ "internalType": "address", "name": "account", "type": "address" }], "name": "balanceOf", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }],
                             functionName: 'balanceOf',
                             args: [parameters.walletAddress as `0x${string}`],
                         });
-                        return balance.toString();
+                        return parameters.isStablecoin ? formatUnits(balance, 6) : formatUnits(balance, 18);
                     } catch (error) {
-                        throw new Error(`Failed to get token balance: ${error}`);
+                        throw `Failed to get token balance: ${error}`;
                     }
                 }
             ),
