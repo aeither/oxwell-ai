@@ -1,5 +1,6 @@
 import { basic } from "@/goat/basic.plugin";
 import { lifi } from "@/goat/lifi.plugin";
+import { chains } from "@/lib/constants";
 import { openai } from "@ai-sdk/openai";
 import { getOnChainTools } from "@goat-sdk/adapter-vercel-ai";
 import { viem } from "@goat-sdk/wallet-viem";
@@ -67,8 +68,6 @@ export async function POST(req: Request) {
 	const walletClient = privateKeyToAccount(
 		`${process.env.PRIVATE_KEY}` as `0x${string}`,
 	);
-
-	const chains = [arbitrum, mainnet, optimism, polygon, scroll];
 
 	const client = createWalletClient({
 		account: walletClient,

@@ -1,4 +1,5 @@
 import { chainInfo } from "@/lib/chainInfo";
+import { chains } from "@/lib/constants";
 import { type Chain, PluginBase, createTool } from "@goat-sdk/core";
 import type { EVMWalletClient } from "@goat-sdk/wallet-evm";
 import {
@@ -10,7 +11,6 @@ import {
 } from "@lifi/sdk";
 import { config } from "dotenv";
 import { createPublicClient, formatUnits, http } from "viem";
-import { arbitrum, avalanche, base, bsc, mainnet, optimism } from 'viem/chains';
 import { z } from "zod";
 
 config();
@@ -37,7 +37,6 @@ export class LiFiPlugin extends PluginBase<EVMWalletClient> {
                 },
                 async (parameters) => {
                     try {
-                        const chains = [arbitrum, base, mainnet, optimism, avalanche, bsc];
                         const selectedChain = chains.find((chain) => chain.id === Number(parameters.chainId));
                         if (!selectedChain) {
                             throw new Error(`Unsupported chain ID: ${parameters.chainId}`);
