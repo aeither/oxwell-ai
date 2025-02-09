@@ -6,9 +6,9 @@ import { z } from "zod";
 
 config();
 
-export class BasicPlugin extends PluginBase<EVMWalletClient> {
+export class DexalotPlugin extends PluginBase<EVMWalletClient> {
     constructor() {
-        super("basic", []);
+        super("dexalot", []);
     }
 
     supportsChain = (chain: Chain) => chain.type === "evm";
@@ -29,11 +29,30 @@ export class BasicPlugin extends PluginBase<EVMWalletClient> {
                     return String(walletClient.address)
                 }
             ),
-            
+            createTool(
+                {
+                    name: "getDexalotEnvironments",
+                    description: "Get Dexalot trading environments",
+                    parameters: z.object({
+                    }),
+                },
+                async (parameters) => {
+                    try {
+                        const response = await fetch("https://api.dexalot-test.com/privapi/trading/environments");
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const environments = await response.json();
+                        return JSON.stringify(environments);
+                    } catch (error) {
+                        throw `Failed to get Dexalot environments: ${error}`;
+                    }
+                }
+            ),
         ];
     }
 }
 
-export function basic() {
-    return new BasicPlugin();
+export function dexalot() {
+    return new DexalotPlugin();
 }
