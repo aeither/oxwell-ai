@@ -14,7 +14,7 @@ import { type FormEvent, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
 export default function Chat() {
-	const { messages, input, handleInputChange, handleSubmit } = useChat();
+	const { messages, input, handleInputChange, handleSubmit, stop, isLoading } = useChat();
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const onSubmit = async (e: FormEvent) => {
@@ -105,15 +105,26 @@ export default function Chat() {
 							disabled={isSubmitting}
 						/>
 						<div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
-							<Button
-								type="submit"
-								variant="ghost"
-								size="icon"
-								disabled={!input.trim() || isSubmitting}
-								className="text-zinc-400 hover:text-zinc-100 hover:bg-zinc-700/50 transition-colors disabled:opacity-50"
-							>
-								<SendHorizontal className="w-5 h-5" />
-							</Button>
+							{isLoading ? (
+								<Button
+									onClick={stop}
+									variant="ghost"
+									size="icon"
+									className="text-zinc-400 hover:text-zinc-100 hover:bg-zinc-700/50 transition-colors"
+								>
+									<RotateCcw className="w-5 h-5 animate-spin" />
+								</Button>
+							) : (
+								<Button
+									type="submit"
+									variant="ghost"
+									size="icon"
+									disabled={!input.trim() || isSubmitting}
+									className="text-zinc-400 hover:text-zinc-100 hover:bg-zinc-700/50 transition-colors disabled:opacity-50"
+								>
+									<SendHorizontal className="w-5 h-5" />
+								</Button>
+							)}
 						</div>
 					</form>
 				</div>
