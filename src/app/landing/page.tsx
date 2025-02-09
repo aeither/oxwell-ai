@@ -80,12 +80,7 @@ export default function LandingPage() {
 							Get Started
 							<ArrowRight className="ml-2 h-5 w-5" />
 						</Button>
-						<Button
-							variant="outline"
-							className="text-white border-white hover:bg-white/10 text-lg px-8 py-6"
-						>
-							View Demo
-						</Button>
+
 					</div>
 				</div>
 			</section>
