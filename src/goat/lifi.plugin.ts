@@ -144,32 +144,32 @@ export class LiFiPlugin extends PluginBase<EVMWalletClient> {
                 }
             ),
 
-            // createTool(
-            //     {
-            //         name: "getQuote",
-            //         description: "Get a quote for a LiFi swap.",
-            //         parameters: z.object({
-            //             fromAddress: z.string().describe("The address from which the tokens are being transferred"),
-            //             fromChain: z.nativeEnum(ChainId).describe("The source chain ID"),
-            //             toChain: z.nativeEnum(ChainId).describe("The destination chain ID"),
-            //             fromToken: z.string().describe("The address of the token to swap from"),
-            //             toToken: z.string().describe("The address of the token to swap to"),
-            //             fromAmount: z.string().describe("The amount of tokens to swap"),
-            //         }),
-            //     },
-            //     async (parameters) => {
-            //         console.log('🚀 ~ LiFiPlugin ~ parameters:', parameters);
+            createTool(
+                {
+                    name: "getQuote",
+                    description: "Get a quote for a LiFi swap.",
+                    parameters: z.object({
+                        fromAddress: z.string().describe("The address from which the tokens are being transferred"),
+                        fromChain: z.nativeEnum(ChainId).describe("The source chain ID"),
+                        toChain: z.nativeEnum(ChainId).describe("The destination chain ID"),
+                        fromToken: z.string().describe("The address of the token to swap from"),
+                        toToken: z.string().describe("The address of the token to swap to"),
+                        fromAmount: z.string().describe("The amount of tokens to swap"),
+                    }),
+                },
+                async (parameters) => {
+                    console.log('🚀 ~ LiFiPlugin ~ parameters:', parameters);
                     
-            //         try {
-            //             const quote = await getQuote(parameters);
-            //             console.log("🚀 ~ LiFiPlugin ~ quote:", quote)
-            //             return JSON.stringify(quote);
-            //         } catch (error) {
-            //             return JSON.stringify(error);
-            //             // throw new Error(`Failed to get quote: ${error}`);
-            //         }
-            //     }
-            // ),
+                    try {
+                        const quote = await getQuote(parameters);
+                        console.log("🚀 ~ LiFiPlugin ~ quote:", quote)
+                        return JSON.stringify(quote);
+                    } catch (error) {
+                        return JSON.stringify(error);
+                        // throw new Error(`Failed to get quote: ${error}`);
+                    }
+                }
+            ),
 
             createTool(
                 {
