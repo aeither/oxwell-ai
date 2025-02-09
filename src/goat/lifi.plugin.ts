@@ -149,17 +149,17 @@ export class LiFiPlugin extends PluginBase<EVMWalletClient> {
                     name: "getQuote",
                     description: "Get a quote for a LiFi swap.",
                     parameters: z.object({
-                        fromAddress: z.string().describe("The address from which the tokens are being transferred"),
-                        fromChain: z.nativeEnum(ChainId).describe("The source chain ID"),
-                        toChain: z.nativeEnum(ChainId).describe("The destination chain ID"),
-                        fromToken: z.string().describe("The address of the token to swap from"),
-                        toToken: z.string().describe("The address of the token to swap to"),
-                        fromAmount: z.string().describe("The amount of tokens to swap"),
+                        // fromAddress: z.string().describe("The address from which the tokens are being transferred"),
+                        // fromChain: z.nativeEnum(ChainId).describe("The source chain ID"),
+                        // toChain: z.nativeEnum(ChainId).describe("The destination chain ID"),
+                        // fromToken: z.string().describe("The address of the token to swap from"),
+                        // toToken: z.string().describe("The address of the token to swap to"),
+                        // fromAmount: z.string().describe("The amount of tokens to swap"),
                     }),
                 },
                 async (parameters) => {
                     console.log('🚀 ~ LiFiPlugin ~ parameters:', parameters);
-                    
+
                     try {
                         const quote = await getQuote(parameters);
                         console.log("🚀 ~ LiFiPlugin ~ quote:", quote)
@@ -201,13 +201,34 @@ export class LiFiPlugin extends PluginBase<EVMWalletClient> {
                         });
 
                         console.log("🚀 ~ executedRoute:", executedRoute);
-                        return JSON.stringify({message: "executed successfully, here is your receipt", reciept: executedRoute.id});
+                        return JSON.stringify({ message: "executed successfully, here is your receipt", reciept: executedRoute.id });
                     } catch (error) {
                         console.error("Failed to execute route:", error);
                         throw error;
                     }
                 }
             ),
+
+
+            createTool(
+                {
+                    name: "getError",
+                    description: "Get an Error.",
+                    parameters: z.object({
+                        address: z.string().describe("The address from which the tokens are being transferred"),
+                    }),
+                },
+                async (parameters) => {
+
+                    try {
+                        throw new Error("Failed");
+                    } catch (error) {
+                        console.error("❌ ",error);
+                        return JSON.stringify({ message: "Something went wrong. Please check if the input parameters are correct", params: parameters });
+                    }
+                }
+            ),
+
         ];
     }
 }
