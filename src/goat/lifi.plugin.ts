@@ -175,8 +175,8 @@ export class LiFiPlugin extends PluginBase<EVMWalletClient> {
                     parameters: z.object({
                         fromChainId: z.nativeEnum(ChainId).describe("The source chain ID"),
                         toChainId: z.nativeEnum(ChainId).describe("The destination chain ID"),
-                        fromTokenAddress: z.string().describe("The address of the token to swap from"),
-                        toTokenAddress: z.string().describe("The address of the token to swap to"),
+                        fromTokenAddress: z.string().describe("The address of the token to swap from. 0x0000000000000000000000000000000000000000 for native token"),
+                        toTokenAddress: z.string().describe("The address of the token to swap to. 0x0000000000000000000000000000000000000000 for native token"),
                         fromAmount: z.string().describe("The amount of tokens to swap"),
                         fromAddress: z.string().describe("The address from which the tokens are being transferred"),
                     }),

@@ -11,12 +11,12 @@ import { transferAction } from "./actions/transfer";
 import { evmWalletProvider } from "./providers/wallet";
 
 export const evmPlugin: Plugin = {
-    name: "evm",
-    description: "EVM blockchain integration plugin",
-    providers: [evmWalletProvider],
-    evaluators: [],
-    services: [],
-    actions: [transferAction, bridgeAction, swapAction],
+	name: "evm",
+	description: "EVM blockchain integration plugin",
+	providers: [evmWalletProvider],
+	evaluators: [],
+	services: [],
+	actions: [transferAction, bridgeAction, swapAction],
 };
 
 export default evmPlugin;
