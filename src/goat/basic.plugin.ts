@@ -1,7 +1,7 @@
 import { type Chain, PluginBase, createTool } from "@goat-sdk/core";
 import type { EVMWalletClient } from "@goat-sdk/wallet-evm";
 import { config } from "dotenv";
-import { parseEther } from "viem";
+import { parseEther, parseUnits } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { z } from "zod";
 
@@ -39,6 +39,19 @@ export class BasicPlugin extends PluginBase<EVMWalletClient> {
                 },
                 async (parameters) => {
                     return parseEther(parameters.amount).toString();
+                }
+            ),
+            createTool(
+                {
+                    name: "convertStablecoinToDecimals",
+                    description: "Convert stablecoin amount to its smallest unit",
+                    parameters: z.object({
+                        amount: z.string().describe("Amount of stablecoin to convert"),
+                    }),
+                },
+                async (parameters) => {
+                    const stablecoinDecimals = 6; // Assuming 6 decimals for USDC, USDT, etc.
+                    return parseUnits(parameters.amount, stablecoinDecimals).toString();
                 }
             ),
         ];
