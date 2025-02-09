@@ -1,6 +1,8 @@
-## Oxwell AI Agent
+<div align="center">
+    <img src="https://github.com/user-attachments/assets/1c73a062-68bc-41f4-95e8-85edc219964b" alt="Logo" width="300">
+</div>
 
-Oxwell AI: Your Personal Cross-Chain DeFi Portfolio Agent
+## Oxwell: Your Personal Cross-Chain DeFi Portfolio Agent
 
 to be your trusted DeFi companion, providing a seamless, sophisticated experience. Oxwell ensures your crypto endeavors are always handled with utmost expertise, allowing you to navigate the complex world of decentralized finance with confidence and ease.
 
