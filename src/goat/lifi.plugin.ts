@@ -201,9 +201,7 @@ export class LiFiPlugin extends PluginBase<EVMWalletClient> {
                         return JSON.stringify(executedRoute);
                     } catch (error) {
                         console.error("Failed to execute route:", error);
-                        return JSON.stringify({
-                            error: `Failed to execute route: ${error.message}`,
-                        });
+                        throw error;
                     }
                 }
             ),

@@ -3,7 +3,7 @@ import readline from "node:readline";
 import { openai } from "@ai-sdk/openai";
 import { generateText } from "ai";
 
-import { http, createWalletClient } from "viem";
+import { createWalletClient, http } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { base } from "viem/chains";
 
@@ -23,7 +23,7 @@ const walletClient = createWalletClient({
 
 (async () => {
 	const tools = await getOnChainTools({
-		wallet: viem(walletClient),
+		wallet: viem(walletClient as any),
 		plugins: [lifi()],
 	});
 

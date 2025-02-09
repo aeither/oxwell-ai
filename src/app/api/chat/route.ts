@@ -4,7 +4,7 @@ import { getOnChainTools } from "@goat-sdk/adapter-vercel-ai";
 import { viem } from "@goat-sdk/wallet-viem";
 import { EVM, createConfig, executeRoute, getRoutes } from "@lifi/sdk";
 import { streamText, tool } from "ai";
-import { http, type Chain, createWalletClient } from "viem";
+import { createWalletClient, http, type Chain } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { arbitrum, mainnet, optimism, polygon, scroll } from "viem/chains";
 import { z } from "zod";
@@ -55,9 +55,7 @@ const lifiTool = tool({
 			};
 		} catch (error) {
 			console.error("Failed to execute route:", error);
-			return {
-				error: `Failed to execute route: ${error.message}`,
-			};
+			throw error;
 		}
 	},
 });
@@ -93,7 +91,7 @@ export async function POST(req: Request) {
 		],
 	});
 	const tools = await getOnChainTools({
-		wallet: viem(walletClient),
+		wallet: viem(walletClient as any),
 		plugins: [lifi()],
 	});
 
