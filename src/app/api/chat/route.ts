@@ -1,3 +1,4 @@
+import { basic } from "@/goat/basic.plugin";
 import { lifi } from "@/goat/lifi.plugin";
 import { openai } from "@ai-sdk/openai";
 import { getOnChainTools } from "@goat-sdk/adapter-vercel-ai";
@@ -92,7 +93,7 @@ export async function POST(req: Request) {
 	});
 	const tools = await getOnChainTools({
 		wallet: viem(walletClient as any),
-		plugins: [lifi()],
+		plugins: [lifi(), basic()],
 	});
 
 	const result = streamText({
