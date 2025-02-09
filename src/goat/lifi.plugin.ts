@@ -61,7 +61,7 @@ export class LiFiPlugin extends PluginBase<EVMWalletClient> {
             createTool(
                 {
                     name: "getChainInfo",
-                    description: "Get information about all supported chains. should be use to get chain key for getTokenByChain",
+                    description: "Get the chain. Get information about all supported chains. should be use to get chain key for getTokenByChain. Always use this tool to get chain key or id",
                     parameters: z.object({}),
                 },
                 async () => {
@@ -178,8 +178,8 @@ export class LiFiPlugin extends PluginBase<EVMWalletClient> {
                     parameters: z.object({
                         fromChainId: z.nativeEnum(ChainId).describe("The source chain ID"),
                         toChainId: z.nativeEnum(ChainId).describe("The destination chain ID"),
-                        fromTokenAddress: z.string().describe("The address of the token to swap from. 0x0000000000000000000000000000000000000000 for native token"),
-                        toTokenAddress: z.string().describe("The address of the token to swap to. 0x0000000000000000000000000000000000000000 for native token"),
+                        fromTokenAddress: z.string().describe("The address of the token to swap from. Use 0x0000000000000000000000000000000000000000 for native token"),
+                        toTokenAddress: z.string().describe("The address of the token to swap to. Use 0x0000000000000000000000000000000000000000 for native token"),
                         fromAmount: z.string().describe("The amount of tokens to swap"),
                         fromAddress: z.string().describe("The address from which the tokens are being transferred"),
                     }),
@@ -196,12 +196,12 @@ export class LiFiPlugin extends PluginBase<EVMWalletClient> {
 
                         const executedRoute = await executeRoute(route, {
                             updateRouteHook(route) {
-                                console.log(route);
+                                console.log(route.id);
                             },
                         });
 
                         console.log("🚀 ~ executedRoute:", executedRoute);
-                        return JSON.stringify(executedRoute);
+                        return JSON.stringify({message: "executed successfully, here is your receipt", reciept: executedRoute.id});
                     } catch (error) {
                         console.error("Failed to execute route:", error);
                         throw error;

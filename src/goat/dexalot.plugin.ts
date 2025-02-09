@@ -49,6 +49,26 @@ export class DexalotPlugin extends PluginBase<EVMWalletClient> {
                     }
                 }
             ),
+            createTool(
+                {
+                    name: "getDexalotTokens",
+                    description: "Get available tokens on Dexalot. Returns the mainnet token list as Dexalot subnet does not allow any ERC20 deployments.",
+                    parameters: z.object({
+                    }),
+                },
+                async (parameters) => {
+                    try {
+                        const response = await fetch("https://api.dexalot-test.com/privapi/trading/tokens");
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const tokens = await response.json();
+                        return JSON.stringify(tokens);
+                    } catch (error) {
+                        throw `Failed to get Dexalot tokens: ${error}`;
+                    }
+                }
+            ),
         ];
     }
 }
