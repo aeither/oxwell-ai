@@ -16,3 +16,7 @@ Features
 - Balance Checking: Real-time monitoring of portfolio balances across various chains in one place.
 - Strategic Trading: Execute trades based on user commands and market analysis across different decentralized exchanges (DEXs).
 - Natural Language Interface: Interact with DeFi protocols on multiple chains using simple chat commands.
+
+## Screenshots
+
+![CleanShot 2025-02-09 at 10 22 09@2x](https://github.com/user-attachments/assets/2c8dcd6e-b5d5-4b75-a5b8-dd6eafebf01a)
