@@ -20,3 +20,5 @@ Features
 ## Screenshots
 
 ![CleanShot 2025-02-09 at 10 22 09@2x](https://github.com/user-attachments/assets/2c8dcd6e-b5d5-4b75-a5b8-dd6eafebf01a)
+
+![CleanShot 2025-02-09 at 10 34 02@2x](https://github.com/user-attachments/assets/813805a0-4d52-4a31-b561-1cd63e305d84)
