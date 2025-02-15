@@ -4,12 +4,11 @@ import { chains } from "@/lib/constants";
 import { openai } from "@ai-sdk/openai";
 import { getOnChainTools } from "@goat-sdk/adapter-vercel-ai";
 import { viem } from "@goat-sdk/wallet-viem";
-import { EVM, createConfig, executeRoute, getRoutes } from "@lifi/sdk";
-import { streamText, tool } from "ai";
+import { EVM, createConfig } from "@lifi/sdk";
+import { streamText } from "ai";
 import { createWalletClient, http, type Chain } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
-import { arbitrum, mainnet, optimism, polygon, scroll } from "viem/chains";
-import { z } from "zod";
+import { mainnet } from "viem/chains";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
