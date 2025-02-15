@@ -1,7 +1,8 @@
 import "@/app/globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { CustomWagmiProvider } from "@/config/lifi";
+import AppKitProvider from "@/context/AppKitProvider";
 import { Geist, Geist_Mono } from "next/font/google";
+import { headers } from "next/headers";
 import type React from "react";
 
 const geistSans = Geist({
@@ -14,11 +15,14 @@ const geistMono = Geist_Mono({
 	subsets: ["latin"],
 });
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
+	const headersObj = await headers();
+	const cookies = headersObj.get("cookie");
+
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body
@@ -30,7 +34,11 @@ export default function RootLayout({
 					enableSystem={false}
 					disableTransitionOnChange
 				>
-					<CustomWagmiProvider>{children}</CustomWagmiProvider>
+					<AppKitProvider cookies={cookies}>
+						{/* <CustomWagmiProvider> */}
+						{children}
+						{/* </CustomWagmiProvider> */}
+					</AppKitProvider>
 				</ThemeProvider>
 			</body>
 		</html>

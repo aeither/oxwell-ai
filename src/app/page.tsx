@@ -1,5 +1,6 @@
 "use client";
 
+import ConnectButton from "@/components/ConnectButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -9,6 +10,7 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from "@/components/ui/sheet";
+import { ChainId, executeRoute, getQuote, getRoutes } from "@lifi/sdk";
 import { useChat } from "ai/react";
 import {
 	Copy,
@@ -17,10 +19,10 @@ import {
 	SendHorizontal,
 	ThumbsDown,
 	ThumbsUp,
-	Wallet,
 } from "lucide-react";
 import { type FormEvent, useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { useAccount } from "wagmi";
 
 const mockAssets = [
 	{ name: "ETH", network: "Base", amount: "0.0017", value: "$4.59" },
@@ -34,7 +36,7 @@ export default function Chat() {
 	const { messages, input, handleInputChange, handleSubmit, stop, isLoading } =
 		useChat();
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [isConnected, setIsConnected] = useState(false);
+	const { address } = useAccount();
 
 	const onSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -42,10 +44,6 @@ export default function Chat() {
 		setIsSubmitting(true);
 		await handleSubmit(e);
 		setIsSubmitting(false);
-	};
-
-	const connectWallet = async () => {
-		setIsConnected(true);
 	};
 
 	return (
@@ -64,13 +62,38 @@ export default function Chat() {
 					</SheetTrigger>
 					<h1 className="text-xl font-bold text-zinc-100">Oxwell AI</h1>
 					<Button
-						variant="outline"
-						className="flex items-center gap-2"
-						onClick={connectWallet}
+						onClick={() => {
+							const main = async () => {
+								console.log("hello world");
+
+								const result = await getRoutes({
+									fromChainId: 42161, // Arbitrum
+									toChainId: 10, // Optimism
+									fromTokenAddress:
+										"0xaf88d065e77c8cC2239327C5EDb3A432268e5831", // USDC on Arbitrum
+									toTokenAddress: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1", // DAI on Optimism
+									fromAmount: "10000000", // 10 USDC
+									// The address from which the tokens are being transferred.
+									fromAddress: address,
+								});
+								console.log("🚀 ~ main ~ quote:", result);
+
+								const executedRoute = await executeRoute(result.routes[0], {
+									// Gets called once the route object gets new updates
+									updateRouteHook(route) {
+										console.log(route);
+									},
+								});
+								console.log("🚀 ~ main ~ executedRoute:", executedRoute);
+							};
+							main();
+						}}
+						variant="ghost"
+						size="icon"
 					>
-						<Wallet className="w-4 h-4" />
-						{isConnected ? "0xA83...D125" : "Connect Wallet"}
+						Test
 					</Button>
+					<ConnectButton />
 				</header>
 
 				{/* Sidebar */}
@@ -90,6 +113,7 @@ export default function Chat() {
 							<div className="space-y-4">
 								{mockAssets.map((asset, i) => (
 									<div
+										// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 										key={i}
 										className="flex justify-between items-center p-2 rounded-lg hover:bg-zinc-900"
 									>
@@ -231,4 +255,3 @@ export default function Chat() {
 		</div>
 	);
 }
-
