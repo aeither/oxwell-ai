@@ -13,3 +13,7 @@ Bridge from chain Base for 10000000000000 of nativetoken to native token to avax
 get quotes for swapping 1 mnt for eth on mantle
 
 Bridge from chain Base for 10000000000000 of token 0x0000000000000000000000000000000000000000 to 0x0000000000000000000000000000000000000000 to bsc 
+
+More Natural Queries
+
+get quotes for swapping native token MNT for WETH on Mantle

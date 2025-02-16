@@ -1,15 +1,10 @@
 "use client";
 
 import ConnectButton from "@/components/ConnectButton";
+import Sidebar from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-	Sheet,
-	SheetContent,
-	SheetHeader,
-	SheetTitle,
-	SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import { chains } from "@/lib/constants";
 import { ChainId, executeRoute, getQuote, getRoutes, type QuoteRequest } from "@lifi/sdk";
 import { useChat } from "ai/react";
@@ -25,14 +20,6 @@ import { type FormEvent, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { createPublicClient, http } from "viem";
 import { useAccount } from "wagmi";
-
-const mockAssets = [
-	{ name: "ETH", network: "Base", amount: "0.0017", value: "$4.59" },
-	{ name: "ETH", network: "Arbitrum One", amount: "0.0015", value: "$3.95" },
-	{ name: "USDC", network: "Base", amount: "0.8346", value: "$0.83" },
-	{ name: "USDC", network: "Avalanche", amount: "0.5999", value: "$0.60" },
-	{ name: "POL", network: "Polygon", amount: "0.929", value: "$0.29" },
-];
 
 type GetBalanceArgs = {
 	isStablecoin: boolean;
@@ -79,7 +66,7 @@ export default function Chat() {
 									{
 										inputs: [
 											{
-											internalType: "address",
+												internalType: "address",
 												name: "account",
 												type: "address",
 											},
@@ -174,46 +161,7 @@ export default function Chat() {
 				</header>
 
 				{/* Sidebar */}
-				<SheetContent
-					side="left"
-					className="w-[300px] p-0 bg-zinc-950 border-r border-zinc-800"
-				>
-					<SheetHeader className="sr-only">
-						<SheetTitle>Wallet Assets</SheetTitle>
-					</SheetHeader>
-					<div className="flex flex-col h-full">
-						<div className="p-4 border-b border-zinc-800">
-							<div className="text-2xl font-bold text-zinc-100">$10.34</div>
-							<div className="text-sm text-zinc-400">Total Balance</div>
-						</div>
-						<div className="flex-1 overflow-auto p-4">
-							<div className="space-y-4">
-								{mockAssets.map((asset, i) => (
-									<div
-										// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-										key={i}
-										className="flex justify-between items-center p-2 rounded-lg hover:bg-zinc-900"
-									>
-										<div>
-											<div className="font-medium text-zinc-100">
-												{asset.name}
-											</div>
-											<div className="text-sm text-zinc-400">
-												{asset.network}
-											</div>
-										</div>
-										<div className="text-right">
-											<div className="font-medium text-zinc-100">
-												{asset.amount}
-											</div>
-											<div className="text-sm text-zinc-400">{asset.value}</div>
-										</div>
-									</div>
-								))}
-							</div>
-						</div>
-					</div>
-				</SheetContent>
+				<Sidebar />
 
 				{/* Main Content */}
 				<main className="flex-1 pt-16 pb-0 h-screen overflow-hidden flex flex-col">
