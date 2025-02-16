@@ -133,9 +133,6 @@ export default function Chat() {
 								},
 							});
 
-							// Wait for route execution to start
-							await new Promise((resolve) => setTimeout(resolve, 1000));
-
 							return JSON.stringify({
 								message: "Route execution started",
 								routeId,
