@@ -17,3 +17,4 @@ Bridge from chain Base for 10000000000000 of token 0x000000000000000000000000000
 More Natural Queries
 
 get quotes for swapping native token MNT for WETH on Mantle
+
