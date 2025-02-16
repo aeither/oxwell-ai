@@ -1,257 +1,229 @@
-"use client";
-
-import ConnectButton from "@/components/ConnectButton";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-	Sheet,
-	SheetContent,
-	SheetHeader,
-	SheetTitle,
-	SheetTrigger,
-} from "@/components/ui/sheet";
-import { ChainId, executeRoute, getQuote, getRoutes } from "@lifi/sdk";
-import { useChat } from "ai/react";
-import {
-	Copy,
-	Menu,
-	RotateCcw,
-	SendHorizontal,
-	ThumbsDown,
-	ThumbsUp,
-} from "lucide-react";
-import { type FormEvent, useState } from "react";
-import ReactMarkdown from "react-markdown";
-import { useAccount } from "wagmi";
+import { ArrowRight, Github } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
-const mockAssets = [
-	{ name: "ETH", network: "Base", amount: "0.0017", value: "$4.59" },
-	{ name: "ETH", network: "Arbitrum One", amount: "0.0015", value: "$3.95" },
-	{ name: "USDC", network: "Base", amount: "0.8346", value: "$0.83" },
-	{ name: "USDC", network: "Avalanche", amount: "0.5999", value: "$0.60" },
-	{ name: "POL", network: "Polygon", amount: "0.929", value: "$0.29" },
-];
-
-export default function Chat() {
-	const { messages, input, handleInputChange, handleSubmit, stop, isLoading } =
-		useChat();
-	const [isSubmitting, setIsSubmitting] = useState(false);
-	const { address } = useAccount();
-
-	const onSubmit = async (e: FormEvent) => {
-		e.preventDefault();
-		if (!input.trim() || isSubmitting) return;
-		setIsSubmitting(true);
-		await handleSubmit(e);
-		setIsSubmitting(false);
-	};
-
+export default function LandingPage() {
 	return (
-		<div className="flex h-screen bg-zinc-950">
-			<Sheet>
-				{/* Header */}
-				<header className="fixed top-0 left-0 right-0 flex items-center justify-between p-4 bg-zinc-950/80 backdrop-blur-sm border-b border-zinc-800">
-					<SheetTrigger asChild>
-						<Button
-							variant="ghost"
-							size="icon"
-							className="text-zinc-400 hover:text-zinc-100"
-						>
-							<Menu className="w-5 h-5" />
-						</Button>
-					</SheetTrigger>
-					<h1 className="text-xl font-bold text-zinc-100">Oxwell AI</h1>
-					<Button
-						onClick={() => {
-							const main = async () => {
-								console.log("hello world");
-
-								const result = await getRoutes({
-									fromChainId: 42161, // Arbitrum
-									toChainId: 10, // Optimism
-									fromTokenAddress:
-										"0xaf88d065e77c8cC2239327C5EDb3A432268e5831", // USDC on Arbitrum
-									toTokenAddress: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1", // DAI on Optimism
-									fromAmount: "10000000", // 10 USDC
-									// The address from which the tokens are being transferred.
-									fromAddress: address,
-								});
-								console.log("🚀 ~ main ~ quote:", result);
-
-								const executedRoute = await executeRoute(result.routes[0], {
-									// Gets called once the route object gets new updates
-									updateRouteHook(route) {
-										console.log(route);
-									},
-								});
-								console.log("🚀 ~ main ~ executedRoute:", executedRoute);
-							};
-							main();
-						}}
-						variant="ghost"
-						size="icon"
-					>
-						Test
-					</Button>
-					<ConnectButton />
-				</header>
-
-				{/* Sidebar */}
-				<SheetContent
-					side="left"
-					className="w-[300px] p-0 bg-zinc-950 border-r border-zinc-800"
-				>
-					<SheetHeader className="sr-only">
-						<SheetTitle>Wallet Assets</SheetTitle>
-					</SheetHeader>
-					<div className="flex flex-col h-full">
-						<div className="p-4 border-b border-zinc-800">
-							<div className="text-2xl font-bold text-zinc-100">$10.34</div>
-							<div className="text-sm text-zinc-400">Total Balance</div>
-						</div>
-						<div className="flex-1 overflow-auto p-4">
-							<div className="space-y-4">
-								{mockAssets.map((asset, i) => (
-									<div
-										// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-										key={i}
-										className="flex justify-between items-center p-2 rounded-lg hover:bg-zinc-900"
-									>
-										<div>
-											<div className="font-medium text-zinc-100">
-												{asset.name}
-											</div>
-											<div className="text-sm text-zinc-400">
-												{asset.network}
-											</div>
-										</div>
-										<div className="text-right">
-											<div className="font-medium text-zinc-100">
-												{asset.amount}
-											</div>
-											<div className="text-sm text-zinc-400">{asset.value}</div>
-										</div>
-									</div>
-								))}
+		<div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-slate-900">
+			{/* Navigation */}
+			<header className="fixed top-0 w-full z-50 bg-black/50 backdrop-blur-sm border-b border-gray-800">
+				<div className="container mx-auto px-4">
+					<nav className="flex items-center justify-between h-16">
+						<div className="flex items-center space-x-8">
+							<Link href="/" className="flex items-center space-x-2">
+								<Image
+									src="https://github.com/user-attachments/assets/1c73a062-68bc-41f4-95e8-85edc219964b"
+									alt="Oxwell Logo"
+									width={32}
+									height={32}
+									className="w-8 h-8"
+								/>
+								<span className="text-white font-semibold text-xl">Oxwell</span>
+							</Link>
+							<div className="hidden md:flex space-x-6">
+								<Link
+									href="#features"
+									className="text-gray-300 hover:text-white transition-colors"
+								>
+									Features
+								</Link>
+								<Link
+									href="#how-it-works"
+									className="text-gray-300 hover:text-white transition-colors"
+								>
+									How it Works
+								</Link>
+								<Link
+									href="#about"
+									className="text-gray-300 hover:text-white transition-colors"
+								>
+									About
+								</Link>
 							</div>
 						</div>
-					</div>
-				</SheetContent>
+						<div className="flex items-center space-x-4">
+							<Link href="/chat">
+								<Button className="bg-white text-black hover:bg-gray-200">
+									Launch App
+									<ArrowRight className="ml-2 h-4 w-4" />
+								</Button>
+							</Link>
+						</div>
+					</nav>
+				</div>
+			</header>
 
-				{/* Main Content */}
-				<main className="flex-1 pt-16 pb-0 h-screen overflow-hidden flex flex-col">
-					{/* Chat messages */}
-					<div className="flex-1 overflow-y-auto p-4 space-y-6">
-						{messages.map((message) => (
+			{/* Hero Section */}
+			<section className="pt-32 pb-20 px-4">
+				<div className="container mx-auto text-center">
+					<div className="flex justify-center mb-8">
+						<Image
+							src="https://github.com/user-attachments/assets/1c73a062-68bc-41f4-95e8-85edc219964b"
+							alt="Oxwell Logo"
+							width={300}
+							height={300}
+							priority
+							className="w-48 h-48 md:w-64 md:h-64"
+						/>
+					</div>
+					<h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
+						Your Personal Cross-Chain
+						<br />
+						DeFi Portfolio Agent
+					</h1>
+					<p className="text-gray-400 text-lg md:text-xl max-w-3xl mx-auto mb-8">
+						Navigate the complex world of decentralized finance with confidence.
+						Oxwell ensures your crypto endeavors are always handled with utmost
+						expertise.
+					</p>
+					<div className="flex flex-col sm:flex-row justify-center gap-4">
+						<Link href="/chat">
+							<Button className="bg-white text-black hover:bg-gray-200 text-lg px-8 py-6">
+								Get Started
+								<ArrowRight className="ml-2 h-5 w-5" />
+							</Button>
+						</Link>
+					</div>
+				</div>
+			</section>
+
+			{/* Features Section */}
+			<section id="features" className="py-20 px-4">
+				<div className="container mx-auto">
+					<h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-12">
+						Powerful Features
+					</h2>
+					<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+						{[
+							{
+								title: "Token Swaps",
+								description:
+									"Execute cross-chain token swaps effortlessly between supported chains.",
+							},
+							{
+								title: "Asset Bridging",
+								description:
+									"Bridge assets between different blockchain networks with ease.",
+							},
+							{
+								title: "Balance Checking",
+								description:
+									"Real-time monitoring of portfolio balances across various chains in one place.",
+							},
+							{
+								title: "Strategic Trading",
+								description:
+									"Execute trades based on user commands and market analysis across different DEXs.",
+							},
+							{
+								title: "Natural Language Interface",
+								description:
+									"Interact with DeFi protocols on multiple chains using simple chat commands.",
+							},
+							{
+								title: "Dexalot Integration",
+								description:
+									"Support for non-custodial, omni-chain DEX that integrates with multiple mainnets.",
+							},
+						].map((feature, index) => (
 							<div
-								key={message.id}
-								className={`flex items-start gap-3 ${message.role === "user" ? "justify-end ml-12" : "mr-12"}`}
+								key={index}
+								className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-gray-800 hover:border-gray-700 transition-colors"
 							>
-								{message.role === "assistant" && (
-									<div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white flex-shrink-0">
-										AI
-									</div>
-								)}
-								<div
-									className={`flex flex-col ${message.role === "user" ? "items-end" : ""}`}
-								>
-									<div
-										className={`group flex flex-col gap-2 ${message.role === "user" ? "items-end" : ""}`}
-									>
-										<div
-											className={`px-4 py-2 rounded-2xl ${
-												message.role === "user"
-													? "bg-zinc-800 text-zinc-100"
-													: "bg-zinc-900 text-zinc-100"
-											}`}
-										>
-											<ReactMarkdown className="prose dark:prose-invert max-w-none">
-												{message.content}
-											</ReactMarkdown>
-										</div>
-										<div className="text-xs text-zinc-500">
-											{new Date().toLocaleTimeString("en-US", {
-												hour12: false,
-												hour: "2-digit",
-												minute: "2-digit",
-											})}
-										</div>
-									</div>
-									{message.role === "assistant" && (
-										<div className="flex items-center gap-2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
-											<Button
-												variant="ghost"
-												size="icon"
-												className="text-zinc-400 hover:text-zinc-100"
-											>
-												<ThumbsUp className="w-4 h-4" />
-											</Button>
-											<Button
-												variant="ghost"
-												size="icon"
-												className="text-zinc-400 hover:text-zinc-100"
-											>
-												<ThumbsDown className="w-4 h-4" />
-											</Button>
-											<Button
-												variant="ghost"
-												size="icon"
-												className="text-zinc-400 hover:text-zinc-100"
-											>
-												<Copy className="w-4 h-4" />
-											</Button>
-											<Button
-												variant="ghost"
-												size="icon"
-												className="text-zinc-400 hover:text-zinc-100"
-											>
-												<RotateCcw className="w-4 h-4" />
-											</Button>
-										</div>
-									)}
-								</div>
+								<h3 className="text-xl font-semibold text-white mb-3">
+									{feature.title}
+								</h3>
+								<p className="text-gray-400">{feature.description}</p>
 							</div>
 						))}
 					</div>
+				</div>
+			</section>
 
-					{/* Input area */}
-					<div className="border-t border-zinc-800 p-4">
-						<div className="max-w-4xl mx-auto">
-							<form onSubmit={onSubmit} className="relative">
-								<Input
-									value={input}
-									onChange={handleInputChange}
-									placeholder="Message Oxwell AI..."
-									className="w-full pr-32 py-6 rounded-xl bg-zinc-900 border-zinc-800 text-zinc-100 focus-visible:ring-zinc-700"
-									disabled={isSubmitting}
-								/>
-								<div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
-									{isLoading ? (
-										<Button
-											onClick={stop}
-											variant="ghost"
-											size="icon"
-											className="text-zinc-400 hover:text-zinc-100"
-										>
-											<RotateCcw className="w-5 h-5 animate-spin" />
-										</Button>
-									) : (
-										<Button
-											type="submit"
-											variant="ghost"
-											size="icon"
-											disabled={!input.trim() || isSubmitting}
-											className="text-zinc-400 hover:text-zinc-100 disabled:opacity-50"
-										>
-											<SendHorizontal className="w-5 h-5" />
-										</Button>
-									)}
+			{/* How it Works Section */}
+			<section id="how-it-works" className="py-20 px-4 bg-black/30">
+				<div className="container mx-auto">
+					<h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-12">
+						How it Works
+					</h2>
+					<div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+						{[
+							{
+								step: "01",
+								title: "Natural Language Input",
+								description:
+									"Simply tell Oxwell what you want to do in plain English",
+							},
+							{
+								step: "02",
+								title: "Smart Processing",
+								description:
+									"Oxwell reads onchain data or executes your requested action",
+							},
+							{
+								step: "03",
+								title: "Human-Friendly Response",
+								description:
+									"Get clear, understandable feedback about your transaction",
+							},
+						].map((step, index) => (
+							<div key={index} className="text-center">
+								<div className="text-5xl font-bold text-white/10 mb-4">
+									{step.step}
 								</div>
-							</form>
+								<h3 className="text-xl font-semibold text-white mb-2">
+									{step.title}
+								</h3>
+								<p className="text-gray-400">{step.description}</p>
+							</div>
+						))}
+					</div>
+				</div>
+			</section>
+
+			{/* Screenshots Section */}
+			<section className="py-20 px-4">
+				<div className="container mx-auto">
+					<div className="grid md:grid-cols-2 gap-8">
+						<Image
+							src="https://github.com/user-attachments/assets/2c8dcd6e-b5d5-4b75-a5b8-dd6eafebf01a"
+							alt="Oxwell Interface Screenshot 1"
+							width={800}
+							height={600}
+							className="rounded-xl border border-gray-800"
+						/>
+						<Image
+							src="https://github.com/user-attachments/assets/813805a0-4d52-4a31-b561-1cd63e305d84"
+							alt="Oxwell Interface Screenshot 2"
+							width={800}
+							height={600}
+							className="rounded-xl border border-gray-800"
+						/>
+					</div>
+				</div>
+			</section>
+
+			{/* Footer */}
+			<footer className="py-8 px-4 border-t border-gray-800">
+				<div className="container mx-auto">
+					<div className="flex flex-col md:flex-row justify-between items-center">
+						<div className="flex items-center space-x-2 mb-4 md:mb-0">
+							<Image
+								src="https://github.com/user-attachments/assets/1c73a062-68bc-41f4-95e8-85edc219964b"
+								alt="Oxwell Logo"
+								width={24}
+								height={24}
+								className="w-6 h-6"
+							/>
+							<span className="text-white font-semibold">Oxwell</span>
+						</div>
+						<div className="text-gray-400 text-sm">
+							© {new Date().getFullYear()} Oxwell. All rights reserved.
 						</div>
 					</div>
-				</main>
-			</Sheet>
+				</div>
+			</footer>
 		</div>
 	);
 }
