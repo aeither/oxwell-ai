@@ -94,6 +94,7 @@ export default function Chat() {
 					case "getQuote": {
 						try {
 							const args = toolCall.args as QuoteRequest;
+							console.log("🚀 ~ onToolCall ~ args:", args);
 							const result = await getQuote(args);
 							return JSON.stringify(result);
 						} catch (error) {

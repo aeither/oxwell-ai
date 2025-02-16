@@ -126,9 +126,9 @@ export default function LandingPage() {
 								description:
 									"Support for non-custodial, omni-chain DEX that integrates with multiple mainnets.",
 							},
-						].map((feature, index) => (
+						].map((feature) => (
 							<div
-								key={index}
+								key={`feature-${feature.title.toLowerCase().replace(/\s+/g, "-")}`}
 								className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-gray-800 hover:border-gray-700 transition-colors"
 							>
 								<h3 className="text-xl font-semibold text-white mb-3">
@@ -219,7 +219,7 @@ export default function LandingPage() {
 							<span className="text-white font-semibold">Oxwell</span>
 						</div>
 						<div className="text-gray-400 text-sm">
-							© {new Date().getFullYear()} Oxwell. All rights reserved.
+							{new Date().getFullYear()} Oxwell. All rights reserved.
 						</div>
 					</div>
 				</div>

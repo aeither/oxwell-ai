@@ -51,11 +51,11 @@ export const lifiTools = {
   }),
 
   getQuote: tool({
-    description: "Get a quote for a LiFi swap",
+    description: "Get a quote for a LiFi swap. Is user mention native token, it is 0x0000000000000000000000000000000000000000",
     parameters: z.object({
       fromAddress: z.string().describe("The address from which the tokens are being transferred"),
       fromChain: z.nativeEnum(ChainId).describe("The source chain ID"),
-      toChain: z.nativeEnum(ChainId).describe("The destination chain ID"),
+      toChain: z.nativeEnum(ChainId).describe("The destination chain ID. If not specified, the destination chain will be the same as the source chain"),
       fromToken: z.string().describe("The address of the token to swap from"),
       toToken: z.string().describe("The address of the token to swap to"),
       fromAmount: z.string().describe("The amount of tokens to swap")
