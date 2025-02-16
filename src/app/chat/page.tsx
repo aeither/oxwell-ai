@@ -10,7 +10,8 @@ import {
 	SheetTitle,
 	SheetTrigger,
 } from "@/components/ui/sheet";
-import { ChainId, executeRoute, getQuote, getRoutes } from "@lifi/sdk";
+import { chains } from "@/lib/constants";
+import { ChainId, executeRoute, getQuote, getRoutes, type QuoteRequest } from "@lifi/sdk";
 import { useChat } from "ai/react";
 import {
 	Copy,
@@ -22,6 +23,7 @@ import {
 } from "lucide-react";
 import { type FormEvent, useState } from "react";
 import ReactMarkdown from "react-markdown";
+import { createPublicClient, http } from "viem";
 import { useAccount } from "wagmi";
 
 const mockAssets = [
@@ -32,11 +34,121 @@ const mockAssets = [
 	{ name: "POL", network: "Polygon", amount: "0.929", value: "$0.29" },
 ];
 
+type GetBalanceArgs = {
+	isStablecoin: boolean;
+	tokenAddress: string;
+	walletAddress: string;
+	chainId: string;
+};
+
+type RouteArgs = {
+	fromChainId: number;
+	toChainId: number;
+	fromTokenAddress: string;
+	toTokenAddress: string;
+	fromAmount: string;
+	fromAddress?: string;
+};
+
 export default function Chat() {
-	const { messages, input, handleInputChange, handleSubmit, stop, isLoading } =
-		useChat();
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const { address } = useAccount();
+
+	const { messages, input, handleInputChange, handleSubmit, addToolResult, isLoading } =
+		useChat({
+			maxSteps: 5,
+			async onToolCall({ toolCall }) {
+				// Handle LiFi tool calls
+				switch (toolCall.toolName) {
+					case "getBalanceOfTokenByChain": {
+						const args = toolCall.args as GetBalanceArgs;
+						try {
+							const selectedChain = chains.find(
+								(chain) => chain.id === Number(args.chainId),
+							);
+							if (!selectedChain) {
+								throw new Error(`Unsupported chain ID: ${args.chainId}`);
+							}
+							const client = createPublicClient({
+								chain: selectedChain,
+								transport: http(),
+							});
+							const balance = await client.readContract({
+								address: args.tokenAddress as `0x${string}`,
+								abi: [
+									{
+										inputs: [
+											{
+											internalType: "address",
+												name: "account",
+												type: "address",
+											},
+										],
+										name: "balanceOf",
+										outputs: [
+											{ internalType: "uint256", name: "", type: "uint256" },
+										],
+										stateMutability: "view",
+										type: "function",
+									},
+								],
+								functionName: "balanceOf",
+								args: [args.walletAddress as `0x${string}`],
+							});
+
+							const decimals = args.isStablecoin ? 6 : 18;
+							return balance.toString();
+						} catch (error) {
+							console.error("Failed to get balance:", error);
+							throw error;
+						}
+					}
+
+					case "getQuote": {
+						try {
+							const args = toolCall.args as QuoteRequest;
+							const result = await getQuote(args);
+							return JSON.stringify(result);
+						} catch (error) {
+							console.error("Failed to get quote:", error);
+							throw error;
+						}
+					}
+
+					case "executeRoute": {
+						try {
+							const args = toolCall.args as RouteArgs;
+							const result = await getRoutes(args);
+							if (!result.routes.length) {
+								throw new Error("No routes found");
+							}
+
+							const route = result.routes[0];
+							let routeId: string | undefined;
+
+							const routeExecuted = await executeRoute(route, {
+								updateRouteHook(updatedRoute) {
+									console.log("Route update:", updatedRoute);
+									routeId = updatedRoute.id;
+								},
+							});
+
+							// Wait for route execution to start
+							await new Promise((resolve) => setTimeout(resolve, 1000));
+
+							return JSON.stringify({
+								message: "Route execution started",
+								routeId,
+								route: routeExecuted.id,
+							});
+						} catch (error) {
+							console.error("Failed to execute route:", error);
+							throw error;
+						}
+					}
+				}
+			},
+		});
 
 	const onSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -61,38 +173,6 @@ export default function Chat() {
 						</Button>
 					</SheetTrigger>
 					<h1 className="text-xl font-bold text-zinc-100">Oxwell AI</h1>
-					<Button
-						onClick={() => {
-							const main = async () => {
-								console.log("hello world");
-
-								const result = await getRoutes({
-									fromChainId: 42161, // Arbitrum
-									toChainId: 10, // Optimism
-									fromTokenAddress:
-										"0xaf88d065e77c8cC2239327C5EDb3A432268e5831", // USDC on Arbitrum
-									toTokenAddress: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1", // DAI on Optimism
-									fromAmount: "10000000", // 10 USDC
-									// The address from which the tokens are being transferred.
-									fromAddress: address,
-								});
-								console.log("🚀 ~ main ~ quote:", result);
-
-								const executedRoute = await executeRoute(result.routes[0], {
-									// Gets called once the route object gets new updates
-									updateRouteHook(route) {
-										console.log(route);
-									},
-								});
-								console.log("🚀 ~ main ~ executedRoute:", executedRoute);
-							};
-							main();
-						}}
-						variant="ghost"
-						size="icon"
-					>
-						Test
-					</Button>
 					<ConnectButton />
 				</header>
 
