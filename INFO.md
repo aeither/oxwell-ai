@@ -10,4 +10,6 @@ execute a lifi route from 0xA830Cd34D83C10Ba3A8bB2F25ff8BBae9BcD0125 on chain id
 
 Bridge from chain Base for 10000000000000 of nativetoken to native token to avax 
 
+get quotes for swapping 1 mnt for eth on mantle
+
 Bridge from chain Base for 10000000000000 of token 0x0000000000000000000000000000000000000000 to 0x0000000000000000000000000000000000000000 to bsc 

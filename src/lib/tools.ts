@@ -1,10 +1,8 @@
 import { ChainId } from "@lifi/sdk";
 import { tool } from 'ai';
-import { createPublicClient, formatUnits, http, parseEther, parseUnits } from "viem";
+import { parseEther, parseUnits } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { z } from 'zod';
-import { chainInfo } from './chainInfo';
-import { chains } from './constants';
 
 // Basic Tools (Server-side)
 export const basicTools = {
