@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
-import { createPublicClient, http } from "viem";
 import { chains } from "@/lib/constants";
+import { NextResponse } from "next/server";
+import { createPublicClient, formatUnits, http, parseUnits } from "viem";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -32,10 +32,10 @@ export async function GET(request: Request) {
       address: address as `0x${string}`,
     });
 
-    const formatted = balance.toString();
+    const formatted = formatUnits(balance, 18);
 
     return NextResponse.json({
-      balance,
+      balance: formatted, // Convert BigInt to string
       formatted,
     });
   } catch (error) {
