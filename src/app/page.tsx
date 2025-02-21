@@ -1,5 +1,7 @@
+import { HyperText } from "@/components/magicui/hyper-text";
+import { ShinyButton } from "@/components/magicui/shiny-button";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Github } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -44,10 +46,10 @@ export default function LandingPage() {
 						</div>
 						<div className="flex items-center space-x-4">
 							<Link href="/chat">
-								<Button className="bg-white text-black hover:bg-gray-200">
+								<ShinyButton className="flex flex-row">
 									Launch App
-									<ArrowRight className="ml-2 h-4 w-4" />
-								</Button>
+									{/* <ArrowRight className="ml-2 h-4 w-4" /> */}
+								</ShinyButton>
 							</Link>
 						</div>
 					</nav>
@@ -68,21 +70,23 @@ export default function LandingPage() {
 						/>
 					</div>
 					<h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
-						Your Personal Cross-Chain
-						<br />
-						DeFi Portfolio Agent
+						<HyperText duration={400} >Your Personal Cross-Chain</HyperText>
+
+						<HyperText duration={400} >DeFi Portfolio Agent</HyperText>
 					</h1>
 					<p className="text-gray-400 text-lg md:text-xl max-w-3xl mx-auto mb-8">
-						Navigate the complex world of decentralized finance with confidence.
-						Oxwell ensures your crypto endeavors are always handled with utmost
-						expertise.
+						<HyperText animateOnHover={false} duration={400} className="text-gray-400">
+							Navigate the complex world of decentralized finance with
+							confidence. Oxwell ensures your crypto endeavors are always
+							handled with utmost expertise.
+						</HyperText>
 					</p>
 					<div className="flex flex-col sm:flex-row justify-center gap-4">
 						<Link href="/chat">
-							<Button className="bg-white text-black hover:bg-gray-200 text-lg px-8 py-6">
+							<ShinyButton >
 								Get Started
-								<ArrowRight className="ml-2 h-5 w-5" />
-							</Button>
+								{/* <ArrowRight className="ml-2 h-5 w-5" /> */}
+							</ShinyButton>
 						</Link>
 					</div>
 				</div>
@@ -91,9 +95,9 @@ export default function LandingPage() {
 			{/* Features Section */}
 			<section id="features" className="py-20 px-4">
 				<div className="container mx-auto">
-					<h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-12">
+					<HyperText className="text-3xl md:text-4xl font-bold text-white text-center mb-12">
 						Powerful Features
-					</h2>
+					</HyperText>
 					<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 						{[
 							{
@@ -145,7 +149,7 @@ export default function LandingPage() {
 			<section id="how-it-works" className="py-20 px-4 bg-black/30">
 				<div className="container mx-auto">
 					<h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-12">
-						How it Works
+						<HyperText>How it Works</HyperText>
 					</h2>
 					<div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
 						{[

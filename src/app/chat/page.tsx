@@ -3,7 +3,6 @@
 import ConnectButton from "@/components/ConnectButton";
 import Sidebar from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
 	PromptInput,
 	PromptInputAction,
@@ -12,7 +11,7 @@ import {
 } from "@/components/ui/prompt-input";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import { chains } from "@/lib/constants";
-import { ChainId, executeRoute, getQuote, getRoutes, type QuoteRequest } from "@lifi/sdk";
+import { executeRoute, getQuote, getRoutes, type QuoteRequest } from "@lifi/sdk";
 import { useChat } from "ai/react";
 import {
 	Copy,
