@@ -1,13 +1,13 @@
 "use client";
 
-import { projectId, wagmiAdapter, configureLifiChains } from "@/config/appkit";
-import { arbitrum, base, mantle } from "@reown/appkit/networks";
+import { configureLifiChains, projectId, wagmiAdapter } from "@/config/appkit";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import "@rainbow-me/rainbowkit/styles.css";
+import { arbitrum, base, bsc, mantle } from "@reown/appkit/networks";
 import { createAppKit } from "@reown/appkit/react";
 import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { cookieToInitialState, WagmiProvider, type Config } from "wagmi";
-import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import "@rainbow-me/rainbowkit/styles.css";
 
 const queryClient = new QueryClient();
 
@@ -23,14 +23,14 @@ const metadata = {
 };
 
 const modal = createAppKit({
-  adapters: [wagmiAdapter],
-  projectId,
-  networks: [arbitrum, mantle, base],
-  defaultNetwork: mantle,
-  metadata: metadata,
-  features: {
-    analytics: true,
-  },
+	adapters: [wagmiAdapter],
+	projectId,
+	networks: [arbitrum, base, mantle, bsc],
+	defaultNetwork: mantle,
+	metadata: metadata,
+	features: {
+		analytics: true,
+	},
 });
 
 function ChainConfigProvider({ children }: { children: ReactNode }) {

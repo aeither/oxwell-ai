@@ -4,6 +4,12 @@ import ConnectButton from "@/components/ConnectButton";
 import Sidebar from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+	PromptInput,
+	PromptInputAction,
+	PromptInputActions,
+	PromptInputTextarea,
+} from "@/components/ui/prompt-input";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import { chains } from "@/lib/constants";
 import { ChainId, executeRoute, getQuote, getRoutes, type QuoteRequest } from "@lifi/sdk";
@@ -243,37 +249,41 @@ export default function Chat() {
 					{/* Input area */}
 					<div className="border-t border-zinc-800 p-4">
 						<div className="max-w-4xl mx-auto">
-							<form onSubmit={onSubmit} className="relative">
-								<Input
-									value={input}
-									onChange={handleInputChange}
-									placeholder="Message Oxwell AI..."
-									className="w-full pr-32 py-6 rounded-xl bg-zinc-900 border-zinc-800 text-zinc-100 focus-visible:ring-zinc-700"
-									disabled={isSubmitting}
-								/>
-								<div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
-									{isLoading ? (
-										<Button
-											onClick={stop}
-											variant="ghost"
-											size="icon"
-											className="text-zinc-400 hover:text-zinc-100"
+							<PromptInput
+								value={input}
+								onValueChange={(value: string) => handleInputChange({ target: { value } } as React.ChangeEvent<HTMLTextAreaElement>)}
+								isLoading={isLoading}
+								onSubmit={onSubmit}
+								className="w-full relative"
+							>
+								<div className="relative">
+									<PromptInputTextarea 
+										placeholder="Message Oxwell AI..."
+										className="bg-zinc-900 border-zinc-800 text-zinc-100 focus-visible:ring-zinc-700 pr-12"
+										disabled={isSubmitting}
+									/>
+									<PromptInputActions className="absolute right-2 top-1/2 -translate-y-1/2">
+										<PromptInputAction
+											tooltip={isLoading ? "Stop generation" : "Send message"}
 										>
-											<RotateCcw className="w-5 h-5 animate-spin" />
-										</Button>
-									) : (
-										<Button
-											type="submit"
-											variant="ghost"
-											size="icon"
-											disabled={!input.trim() || isSubmitting}
-											className="text-zinc-400 hover:text-zinc-100 disabled:opacity-50"
-										>
-											<SendHorizontal className="w-5 h-5" />
-										</Button>
-									)}
+											<Button
+												type="submit"
+												variant="ghost"
+												size="icon"
+												disabled={!input.trim() || isSubmitting}
+												className="text-zinc-400 hover:text-zinc-100 disabled:opacity-50"
+												onClick={onSubmit}
+											>
+												{isLoading ? (
+													<RotateCcw className="w-5 h-5 animate-spin" />
+												) : (
+													<SendHorizontal className="w-5 h-5" />
+												)}
+											</Button>
+										</PromptInputAction>
+									</PromptInputActions>
 								</div>
-							</form>
+							</PromptInput>
 						</div>
 					</div>
 				</main>
