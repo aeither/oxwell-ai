@@ -9,7 +9,8 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
-		"@ai-sdk/openai": "^1.1.9",
+		"@ai-sdk/cerebras": "^0.1.11",
+		"@ai-sdk/openai": "^1.1.13",
 		"@goat-sdk/adapter-vercel-ai": "^0.2.8",
 		"@goat-sdk/core": "^0.4.7",
 		"@goat-sdk/wallet-evm": "^0.2.8",
