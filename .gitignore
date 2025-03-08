@@ -32,6 +32,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+.env.development
 
 # vercel
 .vercel
@@ -40,4 +41,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# project specific
 temp
+.mastra
+output.txt
+node_modules
+dist
+*.db
