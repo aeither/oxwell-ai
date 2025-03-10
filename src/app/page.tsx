@@ -70,20 +70,18 @@ export default function LandingPage() {
 						/>
 					</div>
 					<h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight">
-						<HyperText duration={400} >Your Personal Cross-Chain</HyperText>
+						<HyperText duration={20}>Financial Literacy &</HyperText>
 
-						<HyperText duration={400} >DeFi Portfolio Agent</HyperText>
+						<HyperText duration={20}>Investment Insights Platform</HyperText>
 					</h1>
 					<p className="text-gray-400 text-lg md:text-xl max-w-3xl mx-auto mb-8">
-						<HyperText animateOnHover={false} duration={400} className="text-gray-400">
-							Navigate the complex world of decentralized finance with
-							confidence. Oxwell ensures your crypto endeavors are always
-							handled with utmost expertise.
-						</HyperText>
+						Gain valuable financial knowledge and investment insights through
+						our blockchain-based platform. Learn, earn, and share alpha with our
+						tokenized incentive system.
 					</p>
 					<div className="flex flex-col sm:flex-row justify-center gap-4">
 						<Link href="/chat">
-							<ShinyButton >
+							<ShinyButton>
 								Get Started
 								{/* <ArrowRight className="ml-2 h-5 w-5" /> */}
 							</ShinyButton>
@@ -101,34 +99,34 @@ export default function LandingPage() {
 					<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
 						{[
 							{
-								title: "Token Swaps",
+								title: "Knowledge Sharing",
 								description:
-									"Execute cross-chain token swaps effortlessly between supported chains.",
+									"Create and share educational content and valuable investment insights with the community.",
 							},
 							{
-								title: "Asset Bridging",
+								title: "On-chain Certification",
 								description:
-									"Bridge assets between different blockchain networks with ease.",
+									"Earn NFT certificates upon completing courses or demonstrating financial knowledge.",
 							},
 							{
-								title: "Balance Checking",
+								title: "Social Scoring",
 								description:
-									"Real-time monitoring of portfolio balances across various chains in one place.",
+									"Build reputation through our social scoring system that rewards valuable content creation.",
 							},
 							{
-								title: "Strategic Trading",
+								title: "Tokenized Incentives",
 								description:
-									"Execute trades based on user commands and market analysis across different DEXs.",
+									"Receive and give tokens for quality content and active participation in the ecosystem.",
 							},
 							{
-								title: "Natural Language Interface",
+								title: "Smart Contract Integration",
 								description:
-									"Interact with DeFi protocols on multiple chains using simple chat commands.",
+									"All shared content and certifications are registered on the blockchain for transparency.",
 							},
 							{
-								title: "Dexalot Integration",
+								title: "Learn-to-Earn Model",
 								description:
-									"Support for non-custodial, omni-chain DEX that integrates with multiple mainnets.",
+									"Gain knowledge, earn NFT certificates, and receive governance tokens as you learn.",
 							},
 						].map((feature) => (
 							<div
@@ -155,21 +153,21 @@ export default function LandingPage() {
 						{[
 							{
 								step: "01",
-								title: "Natural Language Input",
+								title: "Create & Learn",
 								description:
-									"Simply tell Oxwell what you want to do in plain English",
+									"Access educational content or create your own investment insights to share",
 							},
 							{
 								step: "02",
-								title: "Smart Processing",
+								title: "Earn & Certify",
 								description:
-									"Oxwell reads onchain data or executes your requested action",
+									"Receive NFT certificates and tokens for your participation and contributions",
 							},
 							{
 								step: "03",
-								title: "Human-Friendly Response",
+								title: "Share & Grow",
 								description:
-									"Get clear, understandable feedback about your transaction",
+									"Build reputation by sharing quality content and grow your financial knowledge",
 							},
 						].map((step, index) => (
 							<div key={index} className="text-center">
@@ -182,28 +180,6 @@ export default function LandingPage() {
 								<p className="text-gray-400">{step.description}</p>
 							</div>
 						))}
-					</div>
-				</div>
-			</section>
-
-			{/* Screenshots Section */}
-			<section className="py-20 px-4">
-				<div className="container mx-auto">
-					<div className="grid md:grid-cols-2 gap-8">
-						<Image
-							src="https://github.com/user-attachments/assets/2c8dcd6e-b5d5-4b75-a5b8-dd6eafebf01a"
-							alt="Oxwell Interface Screenshot 1"
-							width={800}
-							height={600}
-							className="rounded-xl border border-gray-800"
-						/>
-						<Image
-							src="https://github.com/user-attachments/assets/813805a0-4d52-4a31-b561-1cd63e305d84"
-							alt="Oxwell Interface Screenshot 2"
-							width={800}
-							height={600}
-							className="rounded-xl border border-gray-800"
-						/>
 					</div>
 				</div>
 			</section>
