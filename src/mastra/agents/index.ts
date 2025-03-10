@@ -1,6 +1,8 @@
 import { groq } from '@ai-sdk/groq';
 import { Agent } from '@mastra/core/agent';
+import { config } from "dotenv";
 import { weatherTool } from '../tools';
+config()
 
 export const weatherAgent = new Agent({
   name: 'Weather Agent',

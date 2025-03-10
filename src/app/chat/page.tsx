@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/prompt-input";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import { chains } from "@/lib/constants";
+import { useChat } from "@ai-sdk/react";
 import { executeRoute, getQuote, getRoutes, type QuoteRequest } from "@lifi/sdk";
-import { useChat } from "ai/react";
 import {
 	Copy,
 	Menu,

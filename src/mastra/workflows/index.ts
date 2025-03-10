@@ -1,9 +1,11 @@
-import { openai } from '@ai-sdk/openai';
+import { groq } from '@ai-sdk/groq';
 import { Agent } from '@mastra/core/agent';
 import { Step, Workflow } from '@mastra/core/workflows';
+import { config } from "dotenv";
 import { z } from 'zod';
+config()
 
-const llm = openai('gpt-4o');
+const llm = groq('qwen-qwq-32b');
 
 const agent = new Agent({
   name: 'Weather Agent',

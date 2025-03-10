@@ -13,6 +13,7 @@
 		"@ai-sdk/cerebras": "^0.1.11",
 		"@ai-sdk/groq": "^1.1.12",
 		"@ai-sdk/openai": "^1.2.1",
+		"@ai-sdk/react": "^1.1.21",
 		"@goat-sdk/adapter-vercel-ai": "^0.2.8",
 		"@goat-sdk/core": "^0.4.7",
 		"@goat-sdk/wallet-evm": "^0.2.8",
