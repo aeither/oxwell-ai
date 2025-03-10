@@ -76,8 +76,8 @@ export default function LandingPage() {
 					</h1>
 					<p className="text-gray-400 text-lg md:text-xl max-w-3xl mx-auto mb-8">
 						Gain valuable financial knowledge and investment insights through
-						our blockchain-based platform. Learn, earn, and share alpha with our
-						tokenized incentive system.
+						our blockchain-based platform. Learn, earn, and share expert
+						insights.
 					</p>
 					<div className="flex flex-col sm:flex-row justify-center gap-4">
 						<Link href="/chat">
@@ -170,6 +170,7 @@ export default function LandingPage() {
 									"Build reputation by sharing quality content and grow your financial knowledge",
 							},
 						].map((step, index) => (
+							// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 							<div key={index} className="text-center">
 								<div className="text-5xl font-bold text-white/10 mb-4">
 									{step.step}
