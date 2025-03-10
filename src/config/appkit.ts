@@ -26,19 +26,19 @@ export const wagmiAdapter = new WagmiAdapter({
 })
 
 // Initialize LiFi SDK with Wagmi integration
-createLifiConfig({
-  integrator: "OxwellAI",
-  providers: [
-    EVM({
-      getWalletClient: () => getWalletClient(wagmiAdapter.wagmiConfig),
-      switchChain: async (chainId) => {
-        const chain = await switchChain(wagmiAdapter.wagmiConfig, { chainId: chainId })
-        return getWalletClient(wagmiAdapter.wagmiConfig, { chainId: chain.id })
-      },
-    }),
-  ],
-  preloadChains: false,
-})
+// createLifiConfig({
+//   integrator: "OxwellAI",
+//   providers: [
+//     EVM({
+//       getWalletClient: () => getWalletClient(wagmiAdapter.wagmiConfig),
+//       switchChain: async (chainId) => {
+//         const chain = await switchChain(wagmiAdapter.wagmiConfig, { chainId: chainId })
+//         return getWalletClient(wagmiAdapter.wagmiConfig, { chainId: chain.id })
+//       },
+//     }),
+//   ],
+//   preloadChains: false,
+// })
 
 // Export Wagmi config for use in other parts of the app
 export const config = wagmiAdapter.wagmiConfig

@@ -16,10 +16,10 @@ if (!projectId) {
 }
 
 const metadata = {
-  name: "Oxwell AI",
-  description: "Oxwell AI - Your Web3 Assistant",
-  url: "https://oxwell.ai",
-  icons: ["https://oxwell.ai/favicon.ico"],
+	name: "Oxwell AI",
+	description: "Oxwell AI - Your Web3 Assistant",
+	url: "https://oxwell.ai",
+	icons: ["https://oxwell.ai/favicon.ico"],
 };
 
 const modal = createAppKit({
