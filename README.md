@@ -64,3 +64,26 @@ Oxwell AI now integrates with Carv's powerful blockchain data API, offering adva
 | LLM Queries | "Which address had the most transactions yesterday?" | Asks the Carv LLM blockchain-specific questions |
 | Token Info | "What's the current data for ETH?" | Gets detailed information about a specific token |
 | Custom SQL | "Query all transactions from 0x123... in the last 24 hours" | Runs custom SQL queries against blockchain data |
+
+## Setup & Build
+
+```bash
+# Install dependencies
+bun install
+
+# Copy environment variables
+cp .env.example .env
+
+# Fill in your environment variables
+# - Add your wallet private key
+# - Configure API keys for Carv, OpenAI, etc.
+
+# Build the project
+bun run build
+```
+
+## Run
+
+```bash
+bun run dev
+```
