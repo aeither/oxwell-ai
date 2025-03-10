@@ -2,58 +2,65 @@
     <img src="https://github.com/user-attachments/assets/1c73a062-68bc-41f4-95e8-85edc219964b" alt="Logo" width="300">
 </div>
 
+# Oxwell AI
 
-Description
+**Financial Literacy & Investment Insights Platform**
 
-Tokenizing Financial Literacy and Investment Insights
+Oxwell AI is a blockchain-based platform designed to improve financial literacy while incentivizing quality investment insights through a unique reward system. Gain valuable financial knowledge and investment insights while learning, earning, and sharing expert perspectives.
 
+## Core Features
 
-**Financial Literacy and Alpha Sharing Platform**
+- **Knowledge Sharing**: Create and share educational content and valuable investment insights with the community
+- **On-chain Certification**: Earn NFT certificates upon completing courses or demonstrating financial knowledge
+- **Social Scoring**: Build reputation through our social scoring system that rewards valuable content creation
+- **Tokenized Incentives**: Receive and give tokens for quality content and active participation in the ecosystem
+- **Smart Contract Integration**: All shared content and certifications are registered on the blockchain for transparency
+- **Learn-to-Earn Model**: Gain knowledge, earn NFT certificates, and receive governance tokens as you learn
 
-This innovative blockchain-based application aims to improve financial literacy while incentivizing quality investment insights ("alphas") through a unique reward system. The platform combines several key features:
-1. Knowledge Sharing: Users can create and share educational content and investment insights.
-2. On-chain Certification: Learners can earn NFT certificates upon completing courses or demonstrating knowledge, stored on the blockchain.
-3. Social Scoring: A reputation system rewards creators for providing valuable content, improving their visibility on the platform.
-4. Tokenized Incentives: Users can tip creators with tokens for quality content, and learners can earn governance tokens for participation.
-5. Smart Contract Integration: Shared content and certifications are registered on the blockchain, ensuring transparency and ownership.
-6. Monetization for Creators: Content providers can earn from their contributions through tips and improved social scores.
-7. Learn-to-Earn Model: Consumers gain knowledge, earn NFT certificates, and receive governance tokens as rewards.
+## Blockchain Analytics with Carv Integration
 
+Oxwell AI now integrates with Carv's powerful blockchain data API, offering advanced analytics capabilities:
 
-## Oxwell: Your Personal Cross-Chain DeFi Portfolio Agent
+- **Blockchain News**: Access the latest news in the blockchain and crypto space
+- **On-chain Data Analysis**: Query recent block data and transaction information
+- **High-Value Transaction Monitoring**: Track significant value movements on Ethereum
+- **Token Information**: Get detailed information about specific tokens
+- **Natural Language Queries**: Ask blockchain-related questions in plain English
+- **Custom SQL Queries**: Run advanced SQL queries against blockchain data
 
-Oxwell is designed to be your trusted DeFi companion, providing a seamless, sophisticated experience. Oxwell ensures your crypto endeavors are always handled with utmost expertise, allowing you to navigate the complex world of decentralized finance with confidence and ease.
+## How It Works
 
-## Description
+1. **Create & Learn**: Access educational content or create your own investment insights to share
+2. **Earn & Certify**: Receive NFT certificates and tokens for your participation and contributions
+3. **Share & Grow**: Build reputation by sharing quality content and grow your financial knowledge
 
-Oxwell AI is an advanced chatbot agent designed to simplify cross-chain DeFi portfolio management. It provides a seamless, sophisticated experience for users to interact with various DeFi protocols across multiple blockchains through natural language commands.
+## Sample Commands for Testing
 
-## Features
+### DeFi Operations
 
-- Token Swaps: Execute cross-chain token swaps effortlessly between supported chains.
-- Asset Bridging: Bridge assets between different blockchain networks with ease.
-- Balance Checking: Real-time monitoring of portfolio balances across various chains in one place.
-- Strategic Trading: Execute trades based on user commands and market analysis across different decentralized exchanges (DEXs).
-- Natural Language Interface: Interact with DeFi protocols on multiple chains using simple chat commands.
-- Dexalot Integration: Oxwell supports Dexalot, a non-custodial, omni-chain DEX that integrates with multiple mainnets, offering unmatched flexibility for your trading needs.
+- "Bridge 2 USDT from Avalanche to BNB Chain"
+- "Swap 0.5 ETH for USDC on Arbitrum"
+- "Check my wallet balance on Optimism"
+- "Execute a Lifi route from 0xA830Cd34D83C10Ba3A8bB2F25ff8BBae9BcD0125 on chain 42161"
 
-## How it works
+### Carv Blockchain Analytics
 
-- Natural Language to Techninal Input requirements
-- Read onchain data or Execute action
-- Raw data response to human friendly language
+- "Get the latest blockchain news"
+- "Show me the 5 most recent Ethereum blocks"
+- "What are the highest-value ETH transactions in the last 3 days?"
+- "Tell me about the AAVE token"
+- "What's the most active address on Ethereum during the last 24 hours?"
+- "Run a query to show the top gas consumers on Ethereum yesterday"
 
+## Command Reference
 
-Bridge 2 USDT from avax to bnb.
+### Carv Analytics Tools
 
-execute a lifi route from 0xA830Cd34D83C10Ba3A8bB2F25ff8BBae9BcD0125 on chain id 42161 from 10000000000000 for token 0x0000000000000000000000000000000000000000 amount to 0x0000000000000000000000000000000000000000 on chain id 10
-
-## Screenshots
-
-![CleanShot 2025-02-09 at 10 22 09@2x](https://github.com/user-attachments/assets/2c8dcd6e-b5d5-4b75-a5b8-dd6eafebf01a)
-
-![CleanShot 2025-02-09 at 10 34 02@2x](https://github.com/user-attachments/assets/813805a0-4d52-4a31-b561-1cd63e305d84)
-
-![CleanShot 2025-02-09 at 12 53 18@2x](https://github.com/user-attachments/assets/7ea0a60a-8563-4f93-b1bd-9510b3885165)
-
-
+| Feature | Sample Command | Description |
+|---------|----------------|-------------|
+| News | "Get the latest crypto news" | Retrieves the latest blockchain and crypto news from Carv |
+| Recent Blocks | "Show the last 10 Ethereum blocks" | Displays information about recent Ethereum blocks |
+| High-Value Transactions | "Find ETH transactions over 20 ETH in the past week" | Identifies high-value transactions on Ethereum |
+| LLM Queries | "Which address had the most transactions yesterday?" | Asks the Carv LLM blockchain-specific questions |
+| Token Info | "What's the current data for ETH?" | Gets detailed information about a specific token |
+| Custom SQL | "Query all transactions from 0x123... in the last 24 hours" | Runs custom SQL queries against blockchain data |
