@@ -1,4 +1,5 @@
 import { tools } from "@/lib/tools";
+import { cerebras } from "@ai-sdk/cerebras";
 import { openai } from "@ai-sdk/openai";
 import { streamText } from "ai";
 
@@ -9,6 +10,7 @@ export async function POST(req: Request) {
   const { messages } = await req.json();
 
   const result = streamText({
+    // model: cerebras("llama-3.3-70b"),
     model: openai("gpt-4o-mini"),
     tools,
     maxSteps: 10,

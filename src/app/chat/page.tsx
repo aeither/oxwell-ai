@@ -12,7 +12,12 @@ import {
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import { chains } from "@/lib/constants";
 import { useChat } from "@ai-sdk/react";
-import { executeRoute, getQuote, getRoutes, type QuoteRequest } from "@lifi/sdk";
+import {
+	executeRoute,
+	getQuote,
+	getRoutes,
+	type QuoteRequest,
+} from "@lifi/sdk";
 import {
 	Copy,
 	Menu,
@@ -46,99 +51,105 @@ export default function Chat() {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const { address } = useAccount();
 
-	const { messages, input, handleInputChange, handleSubmit, addToolResult, isLoading } =
-		useChat({
-			maxSteps: 5,
-			async onToolCall({ toolCall }) {
-				// Handle LiFi tool calls
-				switch (toolCall.toolName) {
-					case "getBalanceOfTokenByChain": {
-						const args = toolCall.args as GetBalanceArgs;
-						try {
-							const selectedChain = chains.find(
-								(chain) => chain.id === Number(args.chainId),
-							);
-							if (!selectedChain) {
-								throw new Error(`Unsupported chain ID: ${args.chainId}`);
-							}
-							const client = createPublicClient({
-								chain: selectedChain,
-								transport: http(),
-							});
-							const balance = await client.readContract({
-								address: args.tokenAddress as `0x${string}`,
-								abi: [
-									{
-										inputs: [
-											{
-												internalType: "address",
-												name: "account",
-												type: "address",
-											},
-										],
-										name: "balanceOf",
-										outputs: [
-											{ internalType: "uint256", name: "", type: "uint256" },
-										],
-										stateMutability: "view",
-										type: "function",
-									},
-								],
-								functionName: "balanceOf",
-								args: [args.walletAddress as `0x${string}`],
-							});
-
-							const decimals = args.isStablecoin ? 6 : 18;
-							return balance.toString();
-						} catch (error) {
-							console.error("Failed to get balance:", error);
-							throw error;
+	const {
+		messages,
+		input,
+		handleInputChange,
+		handleSubmit,
+		addToolResult,
+		isLoading,
+	} = useChat({
+		maxSteps: 5,
+		async onToolCall({ toolCall }) {
+			// Handle LiFi tool calls
+			switch (toolCall.toolName) {
+				case "getBalanceOfTokenByChain": {
+					const args = toolCall.args as GetBalanceArgs;
+					try {
+						const selectedChain = chains.find(
+							(chain) => chain.id === Number(args.chainId),
+						);
+						if (!selectedChain) {
+							throw new Error(`Unsupported chain ID: ${args.chainId}`);
 						}
-					}
-
-					case "getQuote": {
-						try {
-							const args = toolCall.args as QuoteRequest;
-							console.log("🚀 ~ onToolCall ~ args:", args);
-							const result = await getQuote(args);
-							return JSON.stringify(result);
-						} catch (error) {
-							console.error("Failed to get quote:", error);
-							throw error;
-						}
-					}
-
-					case "executeRoute": {
-						try {
-							const args = toolCall.args as RouteArgs;
-							const result = await getRoutes(args);
-							if (!result.routes.length) {
-								throw new Error("No routes found");
-							}
-
-							const route = result.routes[0];
-							let routeId: string | undefined;
-
-							const routeExecuted = await executeRoute(route, {
-								updateRouteHook(updatedRoute) {
-									console.log("Route update:", updatedRoute);
-									routeId = updatedRoute.id;
+						const client = createPublicClient({
+							chain: selectedChain,
+							transport: http(),
+						});
+						const balance = await client.readContract({
+							address: args.tokenAddress as `0x${string}`,
+							abi: [
+								{
+									inputs: [
+										{
+											internalType: "address",
+											name: "account",
+											type: "address",
+										},
+									],
+									name: "balanceOf",
+									outputs: [
+										{ internalType: "uint256", name: "", type: "uint256" },
+									],
+									stateMutability: "view",
+									type: "function",
 								},
-							});
+							],
+							functionName: "balanceOf",
+							args: [args.walletAddress as `0x${string}`],
+						});
 
-							return JSON.stringify({
-								message: "Route execution started",
-								routeId,
-								route: routeExecuted.id,
-							});
-						} catch (error) {
-							console.error("Failed to execute route:", error);
-							throw error;
-						}
+						const decimals = args.isStablecoin ? 6 : 18;
+						return balance.toString();
+					} catch (error) {
+						console.error("Failed to get balance:", error);
+						throw error;
 					}
 				}
-			},
-		});
+
+				case "getQuote": {
+					try {
+						const args = toolCall.args as QuoteRequest;
+						console.log("🚀 ~ onToolCall ~ args:", args);
+						const result = await getQuote(args);
+						return JSON.stringify(result);
+					} catch (error) {
+						console.error("Failed to get quote:", error);
+						throw error;
+					}
+				}
+
+				case "executeRoute": {
+					try {
+						const args = toolCall.args as RouteArgs;
+						const result = await getRoutes(args);
+						if (!result.routes.length) {
+							throw new Error("No routes found");
+						}
+
+						const route = result.routes[0];
+						let routeId: string | undefined;
+
+						const routeExecuted = await executeRoute(route, {
+							updateRouteHook(updatedRoute) {
+								console.log("Route update:", updatedRoute);
+								routeId = updatedRoute.id;
+							},
+						});
+
+						return JSON.stringify({
+							message: "Route execution started",
+							routeId,
+							route: routeExecuted.id,
+						});
+					} catch (error) {
+						console.error("Failed to execute route:", error);
+						throw error;
+					}
+				}
+			}
+		},
+	});
 
 	const onSubmit = async (e: FormEvent) => {
 		e.preventDefault();
@@ -163,6 +174,7 @@ export default function Chat() {
 						</Button>
 					</SheetTrigger>
 					<h1 className="text-xl font-bold text-zinc-100">Oxwell AI</h1>
+
 					<ConnectButton />
 				</header>
 
@@ -250,13 +262,17 @@ export default function Chat() {
 						<div className="max-w-4xl mx-auto">
 							<PromptInput
 								value={input}
-								onValueChange={(value: string) => handleInputChange({ target: { value } } as React.ChangeEvent<HTMLTextAreaElement>)}
+								onValueChange={(value: string) =>
+									handleInputChange({
+										target: { value },
+									} as React.ChangeEvent<HTMLTextAreaElement>)
+								}
 								isLoading={isLoading}
 								onSubmit={onSubmit}
 								className="w-full relative"
 							>
 								<div className="relative">
-									<PromptInputTextarea 
+									<PromptInputTextarea
 										placeholder="Message Oxwell AI..."
 										className="bg-zinc-900 border-zinc-800 text-zinc-100 focus-visible:ring-zinc-700 pr-12"
 										disabled={isSubmitting}
