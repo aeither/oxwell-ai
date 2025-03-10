@@ -45,12 +45,18 @@ export default function LandingPage() {
 							</div>
 						</div>
 						<div className="flex items-center space-x-4">
-							<Link href="/chat">
+							{/* <Link href="/chat">
 								<ShinyButton className="flex flex-row">
 									Launch App
-									{/* <ArrowRight className="ml-2 h-4 w-4" /> */}
 								</ShinyButton>
-							</Link>
+							</Link> */}
+							<Button
+								variant="secondary"
+								disabled
+								className="cursor-not-allowed"
+							>
+								Coming Soon
+							</Button>
 						</div>
 					</nav>
 				</div>
@@ -80,12 +86,15 @@ export default function LandingPage() {
 						insights.
 					</p>
 					<div className="flex flex-col sm:flex-row justify-center gap-4">
-						<Link href="/chat">
-							<ShinyButton>
-								Get Started
-								{/* <ArrowRight className="ml-2 h-5 w-5" /> */}
-							</ShinyButton>
-						</Link>
+						{/* <Link href="/chat"> */}
+						{/* <ShinyButton> */}
+						{/* Get Started */}
+						{/* <ArrowRight className="ml-2 h-5 w-5" /> */}
+						{/* </ShinyButton> */}
+						{/* </Link> */}
+						<Button variant="secondary" disabled className="cursor-not-allowed">
+							Coming Soon
+						</Button>
 					</div>
 				</div>
 			</section>
