@@ -2,6 +2,10 @@
     <img src="https://github.com/user-attachments/assets/1c73a062-68bc-41f4-95e8-85edc219964b" alt="Logo" width="300">
 </div>
 
+# Mobile Native App
+
+https://github.com/aeither/oxwell-ai-expo
+
 # Oxwell AI
 
 **Financial Literacy & Investment Insights Platform**
